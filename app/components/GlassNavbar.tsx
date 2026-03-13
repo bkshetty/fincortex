@@ -11,6 +11,7 @@ import { ThemeToggle } from "./ThemeToggle";
 export default function GlassNavbar() {
   const [user, setUser] = useState<any | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
@@ -51,11 +52,34 @@ export default function GlassNavbar() {
             >
               Go to Dashboard
             </Link>
-            <div 
-              className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-purple-500 border-2 border-white dark:border-white/20 flex items-center justify-center font-bold text-sm uppercase shadow-md text-white"
-              title={user.email}
-            >
-              {user.email ? user.email.charAt(0) : "U"}
+            <div className="relative">
+              <button 
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-purple-500 border-2 border-white dark:border-white/20 flex items-center justify-center font-bold text-sm uppercase shadow-md text-white transition-transform hover:scale-105"
+                title={user.email}
+              >
+                {user.email ? user.email.charAt(0) : "U"}
+              </button>
+
+              {showProfileMenu && (
+                <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-200 dark:border-white/10 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="p-3 border-b border-slate-100 dark:border-white/5">
+                    <p className="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wide">Signed in as</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user.email}</p>
+                  </div>
+                  <div className="p-1">
+                    <button 
+                      onClick={async () => {
+                        await auth.signOut();
+                        setShowProfileMenu(false);
+                      }}
+                      className="w-full text-left px-3 py-2 text-sm text-red-600 dark:text-red-400 font-bold hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (
