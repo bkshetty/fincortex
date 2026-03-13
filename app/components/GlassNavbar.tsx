@@ -22,12 +22,12 @@ export default function GlassNavbar() {
 
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl mx-auto px-6 py-4 flex items-center justify-between bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/20 rounded-3xl z-50 shadow-lg shadow-black/5 transition-colors duration-300">
-      <div className="flex items-center gap-3">
+      <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="bg-white dark:bg-white/10 p-1 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] dark:shadow-none border border-slate-100 dark:border-white/5 flex items-center justify-center h-10 w-10">
-          <Image src="/logo.png" alt="FinCortex Logo" width={32} height={32} className="object-contain w-full h-full" />
+          <Image src="/logo.png" alt="compliance.ai Logo" width={32} height={32} className="object-contain w-full h-full" />
         </div>
-        <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">FinCortex</span>
-      </div>
+        <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">compliance.ai</span>
+      </Link>
       
       <div className="flex items-center gap-6">
         <Link href="#features" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors hidden md:block">

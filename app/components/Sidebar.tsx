@@ -41,12 +41,12 @@ export default function Sidebar() {
 
   return (
     <aside className="w-64 bg-white dark:bg-[#111111] border-r border-slate-200 dark:border-white/10 flex flex-col hidden md:flex transition-colors duration-300">
-      <div className="p-6 flex items-center gap-3">
+      <Link href="/" className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="bg-slate-100 dark:bg-white/10 p-1.5 rounded-xl border border-slate-200 dark:border-white/10 flex items-center justify-center h-10 w-10">
-          <Image src="/logo.png" alt="FinCortex Logo" width={28} height={28} className="object-contain w-full h-full" />
+          <Image src="/logo.png" alt="compliance.ai Logo" width={28} height={28} className="object-contain w-full h-full" />
         </div>
-        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">FinCortex</h1>
-      </div>
+        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">compliance.ai</h1>
+      </Link>
 
       <nav className="flex-1 px-4 py-6 space-y-2">
         <Link href="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${pathname === '/dashboard' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>

@@ -6,6 +6,7 @@ import { auth, googleProvider } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Mail, Lock } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -81,11 +82,12 @@ export default function LoginPage() {
 
       <div className="w-full max-w-md bg-white/80 dark:bg-white/10 backdrop-blur-2xl border border-white/50 dark:border-white/10 p-10 rounded-3xl shadow-xl dark:shadow-2xl relative z-10 text-center transition-all duration-300">
         
-        <div className="bg-slate-50 dark:bg-white/10 w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-6 border border-slate-200 dark:border-white/5 p-2 shadow-sm dark:shadow-lg transition-colors duration-300">
-          <Image src="/logo.png" alt="FinCortex Logo" width={48} height={48} className="object-contain w-full h-full" />
-        </div>
-        
-        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2 transition-colors duration-300">FinCortex</h1>
+        <Link href="/" className="inline-block">
+          <div className="bg-slate-50 dark:bg-white/10 w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-6 border border-slate-200 dark:border-white/5 p-2 shadow-sm dark:shadow-lg transition-colors duration-300 hover:scale-105 transition-transform">
+            <Image src="/logo.png" alt="compliance.ai Logo" width={48} height={48} className="object-contain w-full h-full" />
+          </div>
+        </Link>
+        <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2 transition-colors duration-300">compliance.ai</h1>
         <p className="text-slate-500 dark:text-gray-400 text-sm mb-8 transition-colors duration-300">Enterprise Compliance & Accounts Payable</p>
 
         <form onSubmit={handleEmailAuth} className="flex flex-col gap-4 mb-6 relative">

@@ -1,8 +1,17 @@
 "use client";
 
-import { useState } from 'react';
-import { UploadCloud, CheckCircle2, AlertTriangle, ArrowRight, File as FileIcon, Loader2, Send, MessageSquare } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { UploadCloud, CheckCircle2, AlertTriangle, ArrowRight, File as FileIcon, Loader2, Send, MessageSquare, Search } from 'lucide-react';
 // import { storage, db } from '@/lib/firebase'; // Keep this commented out until you test the UI visually
+
+// --- MOCK INVOICE HISTORY ---
+const MOCK_HISTORY = [
+  { id: "INV-2026-0042", vendor: "Acme Corp", amount: 45000, riskScore: "MEDIUM", date: "Mar 13, 2026" },
+  { id: "INV-2026-0041", vendor: "Global Tech", amount: 12500, riskScore: "LOW", date: "Mar 12, 2026" },
+  { id: "INV-2026-0040", vendor: "Staples India", amount: 3400, riskScore: "LOW", date: "Mar 11, 2026" },
+  { id: "INV-2026-0039", vendor: "CloudHost Pro", amount: 89000, riskScore: "HIGH", date: "Mar 10, 2026" },
+  { id: "INV-2026-0038", vendor: "WeWork", amount: 150000, riskScore: "LOW", date: "Mar 09, 2026" },
+];
 
 export default function UploadHub() {
   const [file, setFile] = useState<File | null>(null);
@@ -10,6 +19,20 @@ export default function UploadHub() {
   const [loading, setLoading] = useState(false);
   const [extractedData, setExtractedData] = useState<any>(null);
   const [chatMessage, setChatMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredHistory = useMemo(() => {
+    if (!searchTerm) return MOCK_HISTORY;
+    const lower = searchTerm.toLowerCase();
+    return MOCK_HISTORY.filter(inv => 
+      inv.vendor.toLowerCase().includes(lower) || 
+      inv.id.toLowerCase().includes(lower)
+    );
+  }, [searchTerm]);
+
+  const formatCurrency = (val: number) => {
+    return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
+  };
 
   // Mock function to simulate the AI processing for UI testing
   const handleProcess = () => {
@@ -63,55 +86,125 @@ export default function UploadHub() {
       
       {!extractedData ? (
         /* STATE 1: THE UPLOAD DROPZONE */
-        <div className="w-full max-w-2xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Bill Analysis Intake</h2>
-            <p className="text-slate-500 dark:text-gray-400 text-lg transition-colors">Drag and drop invoices to extract, validate, and secure.</p>
+        <div className="w-full max-w-5xl mx-auto flex flex-col gap-12">
+          
+          {/* TOP DROPZONE */}
+          <div>
+            <div className="text-center mb-10">
+              <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight transition-colors">Bill Analysis Intake</h2>
+              <p className="text-slate-500 dark:text-gray-400 text-lg transition-colors">Drag and drop invoices to extract, validate, and secure.</p>
+            </div>
+
+            <div 
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              className={`border-2 border-dashed rounded-3xl p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto ${isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 scale-[1.02]' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
+            >
+              <input 
+                type="file" 
+                accept=".pdf,.jpg,.png,.jpeg"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                onChange={(e) => setFile(e.target.files?.[0] || null)}
+              />
+              
+              {loading ? (
+                 <div className="flex flex-col items-center animate-in fade-in duration-300">
+                   <Loader2 size={48} className="text-blue-500 animate-spin mb-6" />
+                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">Agentic AI Processing...</h3>
+                   <p className="text-slate-500 dark:text-gray-400 text-sm mb-0 transition-colors">Running compliance checks and OCR</p>
+                 </div>
+              ) : file ? (
+                 <div className="flex flex-col items-center animate-in zoom-in-95 duration-300">
+                    <div className="bg-green-100 dark:bg-green-500/20 p-4 rounded-full mb-6 text-green-600 dark:text-green-400">
+                      <FileIcon size={48} />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 text-center break-all transition-colors">{file.name}</h3>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm mb-8 transition-colors">Ready for analysis</p>
+                    <button 
+                      onClick={(e) => { e.preventDefault(); handleProcess(); }}
+                      className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-700 hover:scale-105 transition-all shadow-lg z-20 relative"
+                    >
+                      Analyze Document <ArrowRight size={18} />
+                    </button>
+                 </div>
+              ) : (
+                  <div className="flex flex-col items-center">
+                    <div className="bg-blue-100 dark:bg-blue-600/20 p-4 rounded-full mb-6 group-hover:scale-110 transition-transform">
+                      <UploadCloud size={48} className="text-blue-600 dark:text-blue-500" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">Select or drop file here</h3>
+                    <p className="text-slate-500 dark:text-gray-400 text-sm mb-0 transition-colors">Supports PDF, PNG, JPG up to 10MB</p>
+                  </div>
+              )}
+            </div>
           </div>
 
-          <div 
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            className={`border-2 border-dashed rounded-3xl p-16 flex flex-col items-center justify-center transition-all group relative ${isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 scale-[1.02]' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
-          >
-            <input 
-              type="file" 
-              accept=".pdf,.jpg,.png,.jpeg"
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-            />
-            
-            {loading ? (
-               <div className="flex flex-col items-center animate-in fade-in duration-300">
-                 <Loader2 size={48} className="text-blue-500 animate-spin mb-6" />
-                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">Agentic AI Processing...</h3>
-                 <p className="text-slate-500 dark:text-gray-400 text-sm mb-0 transition-colors">Running compliance checks and OCR</p>
-               </div>
-            ) : file ? (
-               <div className="flex flex-col items-center animate-in zoom-in-95 duration-300">
-                  <div className="bg-green-100 dark:bg-green-500/20 p-4 rounded-full mb-6 text-green-600 dark:text-green-400">
-                    <FileIcon size={48} />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 text-center break-all transition-colors">{file.name}</h3>
-                  <p className="text-slate-500 dark:text-gray-400 text-sm mb-8 transition-colors">Ready for analysis</p>
-                  <button 
-                    onClick={(e) => { e.preventDefault(); handleProcess(); }}
-                    className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-blue-700 hover:scale-105 transition-all shadow-lg z-20 relative"
-                  >
-                    Analyze Document <ArrowRight size={18} />
-                  </button>
-               </div>
-            ) : (
-                <div className="flex flex-col items-center">
-                  <div className="bg-blue-100 dark:bg-blue-600/20 p-4 rounded-full mb-6 group-hover:scale-110 transition-transform">
-                    <UploadCloud size={48} className="text-blue-600 dark:text-blue-500" />
-                  </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">Select or drop file here</h3>
-                  <p className="text-slate-500 dark:text-gray-400 text-sm mb-0 transition-colors">Supports PDF, PNG, JPG up to 10MB</p>
-                </div>
-            )}
+          {/* HISTORY TABLE */}
+          <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">
+            <div className="p-6 border-b border-slate-200 dark:border-white/10 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Invoices</h3>
+                <p className="text-sm text-slate-500 dark:text-gray-400">View and track previously analyzed bills.</p>
+              </div>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-4" />
+                <input 
+                  type="text" 
+                  placeholder="Search vendor or ID..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all" 
+                />
+              </div>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50/50 dark:bg-white/5 border-b border-slate-200 dark:border-white/5 transition-colors">
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Invoice / Date</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Vendor</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Amount</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-wider">Risk Level</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-white/5">
+                  {filteredHistory.map((inv, i) => (
+                    <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-white/5 transition-colors group cursor-pointer">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-bold text-slate-900 dark:text-white">{inv.id}</div>
+                        <div className="text-xs text-slate-500 dark:text-gray-500">{inv.date}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-slate-700 dark:text-gray-300">
+                        {inv.vendor}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-mono font-bold text-slate-900 dark:text-white">
+                        {formatCurrency(inv.amount)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-3 py-1 text-xs font-bold rounded-full border flex items-center gap-1.5 w-max ${
+                          inv.riskScore === 'HIGH' ? 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/20' :
+                          inv.riskScore === 'MEDIUM' ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-500/20' :
+                          'bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-200 dark:border-green-500/20'
+                        }`}>
+                          {inv.riskScore === 'HIGH' ? <AlertTriangle size={12}/> : <CheckCircle2 size={12}/>}
+                          {inv.riskScore}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  {filteredHistory.length === 0 && (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-8 text-center text-sm text-slate-500 dark:text-gray-400">
+                        No invoices found matching "{searchTerm}"
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
+
         </div>
 
       ) : (

@@ -105,11 +105,11 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer className="w-full border-t border-slate-200/60 dark:border-white/5 mt-auto bg-white/30 dark:bg-transparent backdrop-blur-sm relative z-10 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="FinCortex Logo" width={24} height={24} className="object-contain opacity-70 grayscale dark:invert" />
-            <span className="text-sm font-bold text-slate-500 dark:text-gray-400 tracking-tight transition-colors duration-300">FinCortex</span>
-          </div>
-          <p className="text-xs text-slate-500 dark:text-gray-600 font-medium transition-colors duration-300">© 2026 FinCortex Technologies. All rights reserved.</p>
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/logo.png" alt="compliance.ai Logo" width={24} height={24} className="object-contain opacity-70 grayscale dark:invert" />
+            <span className="text-sm font-bold text-slate-500 dark:text-gray-400 tracking-tight transition-colors duration-300">compliance.ai</span>
+          </Link>
+          <p className="text-xs text-slate-500 dark:text-gray-600 font-medium transition-colors duration-300">© 2026 compliance.ai Technologies. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -7,7 +7,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FinCortex | Enterprise Compliance",
+  title: "compliance.ai | Enterprise Compliance",
   description: "Autonomous Accounts Payable",
 };
 
