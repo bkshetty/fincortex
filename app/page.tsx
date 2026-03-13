@@ -1,98 +1,124 @@
 "use client";
 
 import { useState } from 'react';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { collection, addDoc } from 'firebase/firestore';
-import { storage, db } from '@/lib/firebase';
+import { UploadCloud, CheckCircle2, AlertTriangle, ArrowRight } from 'lucide-react';
+// import { storage, db } from '@/lib/firebase'; // Keep this commented out until you test the UI visually
 
-export default function Home() {
+export default function UploadHub() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [extractedData, setExtractedData] = useState<any>(null);
 
-  const handleProcess = async () => {
+  // Mock function to simulate the AI processing for UI testing
+  const handleProcess = () => {
     if (!file) return;
     setLoading(true);
-
-    try {
-      // 1. Upload the Invoice Image to Firebase Storage
-      console.log("Uploading to Firebase Storage...");
-      const storageRef = ref(storage, `invoices/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const fileUrl = await getDownloadURL(storageRef);
-
-      console.log("Success! File URL:", fileUrl);
-
-      // 2. Call your Requestly Agentic AI API using the .env variable
-      console.log("Sending to Requestly AI...");
-      const requestlyUrl = process.env.NEXT_PUBLIC_REQUESTLY_API_URL;
-      
-      if (!requestlyUrl) {
-        throw new Error("Missing Requestly API URL in .env.local!");
-      }
-
-      const aiResponse = await fetch(requestlyUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ imageUrl: fileUrl })
+    
+    setTimeout(() => {
+      setExtractedData({
+        vendorName: "Acme Corp",
+        amount: 45000,
+        gstin: "29ABCDE1234F1Z5",
+        riskScore: "High",
+        status: "INVALID_GSTIN_FORMAT",
+        fileUrl: URL.createObjectURL(file) // Temporarily show the local file
       });
-      
-      const aiData = await aiResponse.json();
-      setResult(aiData);
-
-      // 3. Save the AI's extracted data to Firebase Firestore
-      console.log("Saving to Firestore Database...");
-      await addDoc(collection(db, "processed_invoices"), {
-        vendorName: aiData.vendorName || "Unknown",
-        amount: aiData.amount || 0,
-        status: aiData.status || "PENDING",
-        riskScore: aiData.riskScore || "Medium",
-        imageUrl: fileUrl,
-        timestamp: new Date()
-      });
-
-      console.log("🎉 Pipeline Complete!");
-
-    } catch (error) {
-      console.error("Pipeline Error:", error);
-      alert("Something went wrong. Check the console for details.");
-    } finally {
       setLoading(false);
-    }
+    }, 2000);
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8 font-sans">
-      <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">COMPLIANCEPILOT.ai</h1>
-      <p className="text-gray-400 mb-10">Agentic Invoice Processing</p>
+    <div className="p-10 max-w-7xl mx-auto min-h-full flex flex-col justify-center">
+      
+      {!extractedData ? (
+        /* STATE 1: THE UPLOAD DROPZONE */
+        <div className="w-full max-w-2xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl font-extrabold text-white mb-4 tracking-tight">Autonomous Intake</h2>
+            <p className="text-gray-400 text-lg">Drag and drop invoices to extract, validate, and secure.</p>
+          </div>
 
-      <div className="bg-gray-900 border border-gray-800 p-10 rounded-2xl shadow-2xl w-full max-w-md text-center transition-all">
-        <input 
-          type="file" 
-          accept="image/*,application/pdf"
-          onChange={(e) => setFile(e.target.files?.[0] || null)}
-          className="block w-full text-sm text-gray-400 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:font-bold file:bg-blue-600 file:text-white hover:file:bg-blue-500 mb-8 cursor-pointer"
-        />
-        
-        <button 
-          onClick={handleProcess}
-          disabled={!file || loading}
-          className="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          {loading ? "Processing Pipeline..." : "Upload & Analyze"}
-        </button>
-      </div>
+          <div className="border-2 border-dashed border-white/20 rounded-3xl p-16 flex flex-col items-center justify-center bg-white/5 hover:bg-white/10 transition-colors group cursor-pointer relative">
+            <input 
+              type="file" 
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
+            />
+            <div className="bg-blue-600/20 p-4 rounded-full mb-6 group-hover:scale-110 transition-transform">
+              <UploadCloud size={48} className="text-blue-500" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">{file ? file.name : "Select or drop file here"}</h3>
+            <p className="text-gray-500 text-sm mb-8">Supports PDF, PNG, JPG up to 10MB</p>
+            
+            <button 
+              onClick={(e) => { e.preventDefault(); handleProcess(); }}
+              disabled={!file || loading}
+              className="bg-white text-black px-8 py-3 rounded-xl font-bold hover:bg-gray-200 transition-all flex items-center gap-2 disabled:opacity-50 z-10"
+            >
+              {loading ? "Agentic AI Processing..." : "Analyze Document"} 
+              {!loading && <ArrowRight size={18} />}
+            </button>
+          </div>
+        </div>
 
-      {result && (
-        <div className="mt-8 p-6 bg-green-900/20 border border-green-800 rounded-xl text-green-400 max-w-md w-full shadow-lg">
-          <h3 className="font-bold mb-2 flex items-center gap-2">
-            <span>✅</span> Extraction Success!
-          </h3>
-          <pre className="text-xs overflow-x-auto mt-4 bg-black/50 p-4 rounded-lg border border-green-900/50">
-            {JSON.stringify(result, null, 2)}
-          </pre>
+      ) : (
+
+        /* STATE 2: THE SPLIT-SCREEN VERIFICATION */
+        <div className="flex h-[80vh] bg-[#111111] border border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
+          
+          {/* LEFT: Document Viewer */}
+          <div className="w-1/2 border-r border-white/10 bg-black/50 p-6 flex flex-col">
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Source Document</h3>
+            <div className="flex-1 rounded-xl overflow-hidden bg-white/5 flex items-center justify-center">
+               <img src={extractedData.fileUrl} alt="Invoice" className="max-w-full max-h-full object-contain" />
+            </div>
+          </div>
+
+          {/* RIGHT: Data Extraction Form */}
+          <div className="w-1/2 p-10 flex flex-col relative">
+            <div className="flex justify-between items-start mb-8">
+              <div>
+                <h2 className="text-2xl font-bold text-white mb-1">Verify Output</h2>
+                <p className="text-sm text-gray-400">Review the AI extraction before committing to the database.</p>
+              </div>
+              <span className={`px-4 py-1.5 rounded-full text-sm font-bold flex items-center gap-2 ${
+                extractedData.riskScore === 'Low' ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'
+              }`}>
+                {extractedData.riskScore === 'Low' ? <CheckCircle2 size={16}/> : <AlertTriangle size={16}/>}
+                {extractedData.riskScore} Risk
+              </span>
+            </div>
+
+            <div className="space-y-6 flex-1 overflow-y-auto pr-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Vendor Name</label>
+                <input type="text" defaultValue={extractedData.vendorName} className="w-full bg-black border border-white/10 rounded-lg p-3 text-white focus:border-blue-500 outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Total Amount (₹)</label>
+                <input type="number" defaultValue={extractedData.amount} className="w-full bg-black border border-white/10 rounded-lg p-3 text-white focus:border-blue-500 outline-none font-mono" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase mb-2">GSTIN Number</label>
+                <input type="text" defaultValue={extractedData.gstin} className="w-full bg-black border border-white/10 rounded-lg p-3 text-white focus:border-red-500 outline-none font-mono" />
+                {extractedData.riskScore === 'High' && (
+                  <p className="text-red-400 text-xs mt-2 flex items-center gap-1"><AlertTriangle size={12}/> {extractedData.status}</p>
+                )}
+              </div>
+            </div>
+
+            <div className="pt-6 border-t border-white/10 flex gap-4 mt-6">
+              <button onClick={() => setExtractedData(null)} className="px-6 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-all font-medium">
+                Reject
+              </button>
+              <button className="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-blue-600/20">
+                Commit to Ledger
+              </button>
+            </div>
+          </div>
         </div>
       )}
+
     </div>
   );
 }
