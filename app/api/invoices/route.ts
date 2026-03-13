@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { clearAllInvoices, listInvoices } from "@/lib/invoiceStore";
 import { handlePreflight, withCors } from "@/lib/cors";
 
+export const dynamic = "force-dynamic";
+
 export async function OPTIONS(request: Request) {
   return handlePreflight(request);
 }

@@ -47,6 +47,7 @@ export type InvoiceData = {
   fraud_signals: FraudSignal[];
   draft_vendor_email?: VendorEmailDraft;
   image_hash?: string;
+  image_url?: string;
   payment_status?: "PENDING" | "PAID" | "BLOCKED";
   notification_sent?: boolean;
 };

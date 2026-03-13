@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, googleProvider } from "@/lib/firebase";
+import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Mail, Lock } from "lucide-react";
 import Image from "next/image";
@@ -20,12 +19,16 @@ export default function LoginPage() {
     setLoading(true);
     setErrorMsg("");
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      console.log("Logged in user:", result.user.displayName);
-      router.push("/");
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) throw error;
     } catch (error: any) {
-      console.error("Login failed:", error.code, error.message);
-      handleFirebaseError(error);
+      console.error("Login failed:", error.message);
+      setErrorMsg(error.message);
       setLoading(false);
     }
   };
@@ -40,38 +43,32 @@ export default function LoginPage() {
     setLoading(true);
     setErrorMsg("");
 
+    const emailValue = email.trim();
+
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        const { error } = await supabase.auth.signInWithPassword({
+          email: emailValue,
+          password,
+        });
+        if (error) throw error;
         console.log("Logged in user via email");
       } else {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const { error } = await supabase.auth.signUp({
+          email: emailValue,
+          password,
+        });
+        if (error) throw error;
         console.log("Created new user via email");
+        setErrorMsg("Success! Please check your email for a confirmation link.");
       }
-      router.push("/");
+      if (isLogin) router.push("/dashboard");
     } catch (error: any) {
-      console.error("Email auth failed:", error.code, error.message);
-      handleFirebaseError(error);
+      console.error("Email auth failed:", error.message);
+      setErrorMsg(error.message);
+    } finally {
       setLoading(false);
     }
-  };
-
-  const handleFirebaseError = (error: any) => {
-     if (error.code === "auth/configuration-not-found") {
-        setErrorMsg("Google Sign-In is not enabled on this Firebase project. Please go to the Firebase Console -> Authentication -> Sign-in method -> Enable 'Google'.");
-      } else if (error.code === "auth/popup-blocked") {
-        setErrorMsg("The login popup was blocked by your browser. Please allow popups for localhost and try again.");
-      } else if (error.code === "auth/unauthorized-domain") {
-        setErrorMsg("This domain is not authorized for OAuth operations. Add it in Firebase Console -> Authentication -> Settings -> Authorized domains.");
-      } else if (error.code === "auth/invalid-credential" || error.code === "auth/wrong-password" || error.code === "auth/user-not-found") {
-        setErrorMsg("Invalid email or password.");
-      } else if (error.code === "auth/email-already-in-use") {
-        setErrorMsg("An account with this email already exists. Please log in.");
-      } else if (error.code === "auth/weak-password") {
-        setErrorMsg("Password should be at least 6 characters.");
-      } else {
-        setErrorMsg(`Authentication failed: ${error.message}`);
-      }
   };
 
   return (
@@ -177,4 +174,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+}

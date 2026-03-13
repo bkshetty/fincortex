@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Invoice {
+  id                       String   @id @default(uuid())
+  created_at               DateTime @default(now())
+  vendor_name              String
+  vendor_gstin             String?
+  invoice_number           String
+  invoice_date             String
+  currency                 String
+  currency_symbol          String?
+  subtotal                 Float
+  tax_amount               Float
+  total_amount             Float
+  tax_type                 String
+  effective_tax_rate       Float
+  cgst_amount              Float?
+  sgst_amount              Float?
+  igst_amount              Float?
+  cess_amount              Float?
+  cgst_rate                Float?
+  sgst_rate                Float?
+  igst_rate                Float?
+  cess_rate                Float?
+  mixed_tax_rates_detected  Boolean? @default(false)
+  tax_mismatch             Boolean? @default(false)
+  tax_mismatch_percent     Float?
+  currency_inconsistency   Boolean? @default(false)
+  risk_score               String
+  compliance_advisor       Json?
+  fraud_signals            Json?
+  draft_vendor_email       Json?
+  image_hash               String?
+  image_url                String?
+  payment_status           String?  @default("PENDING")
+  notification_sent        Boolean? @default(false)
+
+  @@index([invoice_number, vendor_name])
+  @@index([image_hash])
+}

@@ -46,64 +46,63 @@
     "payment_status": "PENDING",
     "draft_vendor_email": {
       "subject": "Action Required: Compliance Issue with Invoice 2017-40",
-      "body": "Dear VERVE Financial Services Private Limited team,\n\nWe are writing to bring to your attention a compliance issue with invoice #2017-40, dated [date not provided]. Our system has flagged this invoice due to a non-standard Vendor GSTIN format.\n\nSpecifically, the GSTIN format detected on the invoice is invalid. As per our records, a valid GSTIN is a 15-digit number, and we require this information to be in the correct format to process payments.\n\nWe kindly request that you review the invoice and provide a corrected version with the accurate GSTIN information. This will enable us to proceed with the payment of 4899.36 INR.\n\nPlease find the details of the invoice in question below:\n- Invoice #: 2017-40\n- Total Amount: 4899.36 INR\n\nWe appreciate your prompt attention to this matter, and we look forward to receiving the corrected invoice at your earliest convenience.\n\nThank you for your cooperation.\n\nBest regards,\nCompliance Team, CompliancePilot AI",
-      "generated_at": "2026-03-13T14:30:00.518Z"
+      "body": "Dear VERVE Financial Services Private Limited team,\n\nWe are writing to bring to your attention a compliance issue with invoice #2017-40, dated [insert date]. Our system has flagged this invoice due to a non-standard GSTIN format.\n\nSpecifically, the GSTIN provided on the invoice does not conform to the standard 15-digit format. We require a valid GSTIN to process payments and ensure compliance with regulatory requirements.\n\nTo facilitate timely payment, we kindly request that you provide a corrected version of the invoice with the accurate GSTIN information.\n\nPlease find the details of the invoice in question below:\n- Invoice #: 2017-40\n- Total Amount: 4899.36 INR\n\nWe appreciate your prompt attention to this matter, and look forward to receiving the corrected invoice.\n\nThank you for your cooperation.\n\nBest regards,\nCompliance Team, CompliancePilot AI",
+      "generated_at": "2026-03-13T17:19:21.787Z"
     },
-    "id": "6f9cd60e-dcab-46ad-b7fb-0ec928bdaf0e",
-    "created_at": "2026-03-13T14:30:00.527Z"
+    "id": "0bcf22f7-f654-48fd-81f2-58163a2e91a5",
+    "created_at": "2026-03-13T17:19:21.788Z"
   },
   {
-    "vendor_name": "RELIANCE RETAIL LIMITED",
-    "vendor_gstin": "27AABCR1718E1ZP",
-    "invoice_number": "FMAH211477428372",
-    "invoice_date": "28-11-2023",
+    "vendor_name": "RZ ELECTRONICS",
+    "vendor_gstin": "AAA213465",
+    "invoice_number": "1234",
+    "invoice_date": "05-07-2024",
     "currency": "INR",
     "currency_symbol": "₹",
-    "subtotal": 1479.2,
-    "tax_amount": 38.97,
-    "total_amount": 805.6,
-    "tax_type": "GST",
-    "effective_tax_rate": 2.63,
-    "cgst_amount": 0,
+    "subtotal": 10000,
+    "tax_amount": 1800,
+    "total_amount": 11800,
+    "tax_type": "CGST",
+    "effective_tax_rate": 18,
+    "cgst_amount": 1800,
     "sgst_amount": 0,
-    "igst_amount": 38.09,
+    "igst_amount": 0,
     "cess_amount": 0,
-    "cgst_rate": 0,
+    "cgst_rate": 18,
     "sgst_rate": 0,
-    "igst_rate": 5,
+    "igst_rate": 0,
     "cess_rate": 0,
-    "tax_mismatch": true,
-    "tax_mismatch_percent": 46.94,
+    "tax_mismatch": false,
+    "tax_mismatch_percent": 0,
     "mixed_tax_rates_detected": false,
     "currency_inconsistency": false,
-    "risk_score": "HIGH",
+    "risk_score": "MEDIUM",
     "compliance_advisor": {
       "checks": [
         "Vendor identity verified",
-        "GSTIN format is valid",
         "Currency format is consistent",
+        "Invoice math is verified (Subtotal + Tax = Total)",
         "Invoice date is valid"
       ],
       "warnings": [
-        "Invoice math mismatch (Possible data tempering)",
-        "Mathematical total inconsistency"
+        "Vendor GSTIN format is non-standard",
+        "Invalid GSTIN format detected"
       ],
       "recommendation": "SYSTEM ALERT: Discrepancies found. Review fraud signals and AI-drafted vendor email before proceeding."
     },
     "fraud_signals": [
       {
-        "label": "Mathematical total inconsistency"
+        "label": "Invalid GSTIN format detected"
       }
     ],
-    "image_hash": "f21e1c7dc52f22ac3f48d215f5f334e614f44f5d2ca9f38e0f68b78291adfc7c",
-    "payment_status": "BLOCKED",
-    "notification_sent": true,
+    "image_hash": "0e55000aea8f1269057b98b607739829a04019bce4cffd4be36ed815113a7080",
+    "payment_status": "PENDING",
     "draft_vendor_email": {
-      "subject": "Action Required: Compliance Issue with Invoice FMAH211477428372",
-      "body": "Dear RELIANCE RETAIL LIMITED team,\n\nWe are writing to bring to your attention a compliance issue with invoice FMAH211477428372, dated [insert date]. Our system has flagged this invoice for a math mismatch and mathematical total inconsistency, suggesting possible data tampering.\n\nThe total amount on the invoice is 805.6 INR. However, our calculations indicate a discrepancy in the invoice's mathematical total. We require a corrected version of this invoice to process payment.\n\nCould you please verify the invoice details and provide a corrected version at your earliest convenience? We appreciate your prompt attention to this matter, as it will enable us to expedite payment.\n\nPlease find the details of the invoice in question below:\n- Invoice #: FMAH211477428372\n- Total Amount: 805.6 INR\n\nWe look forward to resolving this matter quickly with your cooperation.\n\nThank you for your understanding and cooperation.\n\nBest regards,\nCompliance Team, CompliancePilot AI",
-      "generated_at": "2026-03-13T14:40:06.751Z"
+      "subject": "Action Required: Compliance Issue with Invoice 1234",
+      "body": "Dear RZ ELECTRONICS team,\n\nWe are writing to bring to your attention a compliance issue with invoice #1234, dated [insert date]. Our system has flagged this invoice due to a non-standard Vendor GSTIN format. Upon reviewing the invoice, we detected an invalid GSTIN format.\n\nTo process payment for this invoice, we kindly request that you provide a corrected version of the invoice with the accurate GSTIN information in the standard format.\n\nPlease find the details of the invoice below:\n- Invoice #: 1234\n- Total Amount: 11800 INR\n\nWe appreciate your prompt attention to this matter, and we look forward to receiving the corrected invoice from you soon.\n\nThank you for your cooperation.\n\nBest regards,\nCompliance Team, CompliancePilot AI",
+      "generated_at": "2026-03-13T17:22:49.006Z"
     },
-    "id": "7d8bc91d-a8a4-4552-9d57-0d34d11b71e4",
-    "created_at": "2026-03-13T14:40:06.755Z"
+    "id": "a7274154-d3d7-4d26-920d-6d3907861f9d",
+    "created_at": "2026-03-13T17:22:49.006Z"
   }
 ]

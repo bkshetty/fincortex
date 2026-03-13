@@ -5,12 +5,14 @@ import { generateGeminiContent, getAIProviderName, getOpenAIClient, hasAIConfig,
 import { InvoiceData } from "@/lib/types";
 import { handlePreflight, withCors } from "@/lib/cors";
 import { generateVendorResolutionEmail } from "@/lib/agent";
-import { createHash } from "crypto";
+import { createHash, randomUUID } from "crypto";
+import { supabase } from "@/lib/supabase";
 
 export async function OPTIONS(request: Request) {
   return handlePreflight(request);
 }
 
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 const EXTRACTION_MAX_OUTPUT_TOKENS = 1200;
@@ -70,6 +72,7 @@ Rules:
 - Tax breakdown fields cgst_rate, sgst_rate, and igst_rate must store rates, not tax amounts.
 - Set mixed_tax_rates_detected to true only when there is more than one unique extracted rate.
 - If tax cannot be validated, set tax_mismatch to false and tax_mismatch_percent to 0.
+- If the uploaded image is clearly NOT an invoice (e.g., it is a logo, a person, or a random photo), set vendor_name to "UNKNOWN", total_amount to 0, and vendor_gstin to "NOT FOUND".
 - Return empty strings for missing text values.`;
 
 function toBase64(buffer: ArrayBuffer) {
@@ -116,10 +119,11 @@ function collectDetectedRates(value: unknown) {
 
 function normalizeCurrency(value: string) {
   const normalized = value.trim().toUpperCase();
-  if (!normalized || normalized === "RS" || normalized === "INR" || normalized === "â‚¹") return "INR";
+  if (!normalized || normalized === "RS" || normalized === "INR" || normalized === "â‚¹" || normalized === "₹") return "INR";
   if (normalized === "$" || normalized === "USD") return "USD";
   if (normalized === "OMR") return "OMR";
   if (normalized === "AED") return "AED";
+  if (!/^[A-Z]{3}$/.test(normalized)) return "INR";
   return normalized;
 }
 
@@ -477,20 +481,40 @@ export async function POST(req: Request) {
     const existingImage = await findByImageHash(imageHash);
 
     if (existingImage) {
+      // Still enforce GSTIN rule even on duplicate images
+      const existingGstin = (existingImage.vendor_gstin || "").toLowerCase().trim();
+      const invalidKeywords = ["unknown", "n/a", "", "not found", "none", "not applicable", "missing"];
+      const existingHasNoGST = invalidKeywords.includes(existingGstin) || existingGstin.length < 5;
+      if (existingHasNoGST) {
+        return withCors(NextResponse.json({
+          success: false,
+          message: "Compliance Error: Vendor GSTIN not found on invoice. A valid GST number is required for compliance reporting."
+        }, { status: 400 }), origin);
+      }
       return withCors(NextResponse.json({
         success: true,
         message: "SECURITY ALERT: Exact duplicate image detected. This document was already processed.",
-        invoice: { ...existingImage, risk_score: "HIGH" }
+        invoice: { ...existingImage, risk_score: "MEDIUM" }
       }), origin);
     }
 
     const extractedInvoice = await extractInvoiceFromFile(file);
 
-    // CRITICAL VALIDATION: Check for GSTIN
-    if (!extractedInvoice.vendor_gstin || extractedInvoice.vendor_gstin.length < 5) {
-      return withCors(NextResponse.json({
-        success: false,
-        message: "Compliance Error: Vendor GSTIN not found on invoice. A valid GST number is required for compliance reporting."
+    // BASE RULE: Validate if it's actually an invoice (Strict Enforce Vendor Name, Amount, and GSTIN)
+    const name = (extractedInvoice.vendor_name || "").toLowerCase().trim();
+    const gstin = (extractedInvoice.vendor_gstin || "").toLowerCase().trim();
+    const isZeroAmount = (extractedInvoice.total_amount || 0) <= 0;
+
+    const invalidKeywords = ["unknown", "n/a", "", "not found", "none", "not applicable", "missing", "logo", "image"];
+    const isMissingName = invalidKeywords.includes(name) || name.length < 2;
+    const isMissingGST = invalidKeywords.includes(gstin) || gstin.length < 5;
+
+    // Strict Enforcement of User's "Base Rule"
+    if (isMissingName || isZeroAmount || isMissingGST) {
+      console.log(`[process-invoice] Blocking invalid document. Name: "${name}", GST: "${gstin}", Amount: ${extractedInvoice.total_amount}`);
+      return withCors(NextResponse.json({ 
+        success: false, 
+        message: "Compliance Error: Vendor GSTIN not found on invoice. A valid GST number is required for compliance reporting uplode valid invoice." 
       }, { status: 400 }), origin);
     }
 
@@ -514,7 +538,11 @@ export async function POST(req: Request) {
     const complianceAdvisor = buildComplianceAdvisor({ invoice: extractedInvoice, isDuplicate });
     const fraudSignals = buildFraudSignals({ invoice: extractedInvoice, isDuplicate });
 
-    const storedInvoiceData: InvoiceData = {
+    // 🚀 SPEED OPTIMIZATION: Run Storage Upload and AI Resolution Email in parallel
+    const fileName = `${imageHash}_${randomUUID()}_${file.name}`;
+    
+    // Create base data for tasks that need it
+    const taskData: Omit<InvoiceData, "draft_vendor_email"> = {
       ...extractedInvoice,
       risk_score: riskScore,
       compliance_advisor: complianceAdvisor,
@@ -523,18 +551,42 @@ export async function POST(req: Request) {
       payment_status: riskScore === "HIGH" ? "BLOCKED" : "PENDING"
     };
 
+    // Parallel promises
+    const storagePromise = supabase.storage
+      .from('invoices')
+      .upload(fileName, buffer, {
+        contentType: file.type,
+        cacheControl: '3600'
+      })
+      .then(({ data, error }) => {
+        if (error) throw error;
+        const { data: { publicUrl } } = supabase.storage
+          .from('invoices')
+          .getPublicUrl(fileName);
+        return publicUrl;
+      })
+      .catch(err => {
+        console.error("[process-invoice] Supabase Storage Upload Failed:", err);
+        return "";
+      });
+
+    const emailPromise = riskScore !== "LOW" 
+      ? generateVendorResolutionEmail(taskData)
+      : Promise.resolve(undefined);
+
+    // Wait for parallel tasks
+    const [invoiceUrl, draftEmail] = await Promise.all([storagePromise, emailPromise]);
+
+    const storedInvoiceData: InvoiceData = {
+      ...taskData,
+      image_url: invoiceUrl,
+      draft_vendor_email: draftEmail
+    };
+
     // Elite Feature: Finance Channel Notification Bot (Mock)
     if (riskScore === "HIGH") {
       console.log(`\n🚨 [SECURITY ALERT] High-risk invoice detected!`);
-      console.log(`📡 Sending alert to Finance Channel...`);
-      console.log(`📄 Invoice: ${extractedInvoice.invoice_number} from ${extractedInvoice.vendor_name}`);
-      console.log(`🚩 Signals: ${fraudSignals.map(s => s.label).join(", ")}\n`);
       storedInvoiceData.notification_sent = true;
-    }
-
-    // Agentic Feature: Auto-draft resolution email for Medium/High risk
-    if (riskScore !== "LOW") {
-      storedInvoiceData.draft_vendor_email = await generateVendorResolutionEmail(storedInvoiceData);
     }
 
     const stored = await saveInvoice(storedInvoiceData);

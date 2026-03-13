@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { ArrowRight, Activity, FileText, Lock } from "lucide-react";
 import Image from "next/image";
@@ -12,10 +11,15 @@ export default function LandingPage() {
   const [user, setUser] = useState<any | null>(null);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
     });
-    return () => unsub();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
   return (
     <div className="min-h-screen relative flex flex-col items-center overflow-x-hidden transition-colors duration-300 text-slate-900 dark:text-white">

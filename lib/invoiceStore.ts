@@ -1,51 +1,29 @@
-import fs from 'fs';
-import path from 'path';
-import { randomUUID } from "crypto";
+import prisma from "./prisma";
 import { InvoiceData } from "./types";
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'invoices.json');
-
-// Ensure data directory exists
-if (!fs.existsSync(path.join(process.cwd(), 'data'))) {
-  fs.mkdirSync(path.join(process.cwd(), 'data'), { recursive: true });
-}
-
-function readInvoices(): InvoiceData[] {
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const data = fs.readFileSync(DATA_FILE, 'utf-8');
-      return JSON.parse(data);
-    }
-  } catch (error) {
-    console.error("[invoiceStore] Failed to read invoices data file", error);
-  }
-  return [];
-}
-
-function writeInvoices(invoices: InvoiceData[]): void {
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(invoices, null, 2), 'utf-8');
-  } catch (error) {
-    console.error("[invoiceStore] Failed to write invoices data file", error);
-  }
-}
-
-function sortInvoices(invoices: InvoiceData[]): InvoiceData[] {
-  return [...invoices].sort((a, b) => {
-    const da = a.created_at ? new Date(a.created_at).getTime() : 0;
-    const db2 = b.created_at ? new Date(b.created_at).getTime() : 0;
-    return db2 - da;
-  });
-}
-
 export async function listInvoices(): Promise<InvoiceData[]> {
-  const invoices = readInvoices();
-  return sortInvoices(invoices).slice(0, 100);
+  try {
+    const invoices = await prisma.invoice.findMany({
+      orderBy: { created_at: "desc" },
+      take: 100,
+    });
+    return invoices as unknown as InvoiceData[];
+  } catch (error) {
+    console.error("[invoiceStore] Failed to list invoices from Prisma", error);
+    return [];
+  }
 }
 
 export async function findInvoiceById(id: string): Promise<InvoiceData | null> {
-  const invoices = readInvoices();
-  return invoices.find((inv) => inv.id === id) || null;
+  try {
+    const invoice = await prisma.invoice.findUnique({
+      where: { id },
+    });
+    return invoice as unknown as InvoiceData | null;
+  } catch (error) {
+    console.error("[invoiceStore] Failed to find invoice by ID", error);
+  }
+  return null;
 }
 
 export async function getInvoiceById(id: string): Promise<InvoiceData | null> {
@@ -56,54 +34,86 @@ export async function getLatestInvoiceByVendorAndNumber(
   invoiceNumber: string,
   vendorName: string
 ): Promise<InvoiceData | null> {
-  const invoices = sortInvoices(readInvoices());
-  const matches = invoices.filter(
-    (inv) =>
-      inv.invoice_number.trim().toLowerCase() === invoiceNumber.trim().toLowerCase() &&
-      inv.vendor_name.trim().toLowerCase() === vendorName.trim().toLowerCase()
-  );
-  return matches[0] ?? null;
+  try {
+    const invoice = await prisma.invoice.findFirst({
+      where: {
+        invoice_number: invoiceNumber.trim(),
+        vendor_name: vendorName.trim(),
+      },
+      orderBy: { created_at: "desc" },
+    });
+    return invoice as unknown as InvoiceData | null;
+  } catch (error) {
+    console.error("[invoiceStore] Failed to get latest invoice by vendor/number", error);
+  }
+  return null;
 }
 
 export async function findDuplicateInvoice(
   invoiceNumber: string,
   vendorName: string
 ): Promise<boolean> {
-  const invoices = readInvoices();
-  return invoices.some(
-    (inv) =>
-      inv.invoice_number.trim().toLowerCase() === invoiceNumber.trim().toLowerCase() &&
-      inv.vendor_name.trim().toLowerCase() === vendorName.trim().toLowerCase()
-  );
+  try {
+    const count = await prisma.invoice.count({
+      where: {
+        invoice_number: invoiceNumber.trim(),
+        vendor_name: vendorName.trim(),
+      },
+    });
+    return count > 0;
+  } catch (error) {
+    console.error("[invoiceStore] Failed to check for duplicate invoice", error);
+    return false;
+  }
 }
 
 export async function findByImageHash(hash: string): Promise<InvoiceData | undefined> {
-  const invoices = readInvoices();
-  return invoices.find((inv) => inv.image_hash === hash);
+  try {
+    const invoice = await prisma.invoice.findFirst({
+      where: { image_hash: hash },
+    });
+    return (invoice as unknown as InvoiceData) || undefined;
+  } catch (error) {
+    console.error("[invoiceStore] Failed to find invoice by image hash", error);
+  }
+  return undefined;
 }
 
 export async function saveInvoice(invoice: InvoiceData): Promise<InvoiceData> {
-  const invoices = readInvoices();
-  const id = invoice.id || randomUUID();
-  const row: InvoiceData = {
-    ...invoice,
-    id,
-    created_at: invoice.created_at || new Date().toISOString(),
-  };
+  try {
+    const id = invoice.id;
+    const data: any = {
+      ...invoice,
+      created_at: invoice.created_at ? new Date(invoice.created_at) : new Date(),
+    };
+    
+    // Remove ID for creation or use it for update
+    delete data.id;
 
-  const existingIndex = invoices.findIndex((inv) => inv.id === id);
-  if (existingIndex >= 0) {
-    invoices[existingIndex] = { ...invoices[existingIndex], ...row };
-  } else {
-    invoices.push(row);
+    if (id) {
+      const updated = await prisma.invoice.update({
+        where: { id },
+        data,
+      });
+      return updated as unknown as InvoiceData;
+    } else {
+      const created = await prisma.invoice.create({
+        data,
+      });
+      return created as unknown as InvoiceData;
+    }
+  } catch (error) {
+    console.error("[invoiceStore] Failed to save invoice to Prisma", error);
+    throw error;
   }
-
-  writeInvoices(invoices);
-  console.log(`[invoiceStore] Saved invoice to local data file: ${id}`);
-  return row;
 }
 
 export async function clearAllInvoices(): Promise<void> {
-  writeInvoices([]);
-  console.log(`[invoiceStore] Cleared all invoices from local data file`);
+  try {
+    await prisma.invoice.deleteMany({});
+    console.log(`[invoiceStore] Cleared all invoices from Prisma`);
+  } catch (error) {
+    console.error("[invoiceStore] Failed to clear all invoices from Prisma", error);
+    throw error;
+  }
 }

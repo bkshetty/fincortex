@@ -12,13 +12,18 @@ function formatPercent(value?: number) {
 }
 
 function hasTotalMismatch(invoice: AnalysisParams["invoice"]) {
-  return Math.abs((invoice.subtotal || 0) + (invoice.tax_amount || 0) - (invoice.total_amount || 0)) > 1;
+  const diff = Math.abs((invoice.subtotal || 0) + (invoice.tax_amount || 0) - (invoice.total_amount || 0));
+  // Allow for 2% margin or up to 5 units of difference to handle OCR rounding errors
+  return diff > 5 && diff > (invoice.total_amount || 0) * 0.02;
 }
 
 /** Validates Indian GSTIN Format (15 Characters) */
+/** Validates Indian GSTIN Format (15 Characters) */
 function isInvalidGSTIN(gstin?: string) {
-  if (!gstin) return true;
-  const clean = gstin.trim().toUpperCase();
+  if (!gstin) return false; // Missing is handled as a warning, not an "invalid format" fraud signal
+  const clean = gstin.replace(/[^A-Z0-9]/gi, "").toUpperCase();
+  if (clean.length !== 15) return true;
+  
   // Standard GSTIN: 2 digits + 10 alphanumeric (PAN) + 1 digit + 1 char + 1 digit
   const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
   return !gstRegex.test(clean);
@@ -27,17 +32,25 @@ function isInvalidGSTIN(gstin?: string) {
 /** Detects suspiciously round numbers (e.g., 50000.00) often found in fake bills */
 function isSuspiciouslyRound(num: number) {
   if (num <= 0) return false;
-  // If it's a large amount and ends in multiple zeros
-  return num > 1000 && num % 100 === 0 && Number.isInteger(num);
+  // Only flag extremely round figures for very large amounts (> 100,000)
+  return num >= 100000 && num % 5000 === 0 && Number.isInteger(num);
 }
 
 /** Checks if the invoice date is in the future */
 function isFutureDate(dateStr?: string) {
-  if (!dateStr) return false;
+  if (!dateStr || dateStr === "N/A" || dateStr === "Unknown") return false;
   try {
-    const invDate = new Date(dateStr);
+    // Handle DD-MM-YYYY
+    const bits = dateStr.includes("-") ? dateStr.split("-") : [];
+    let d = new Date(dateStr);
+    if (bits.length === 3 && bits[2].length === 4) {
+      d = new Date(`${bits[2]}-${bits[1]}-${bits[0]}`);
+    }
+    
+    if (isNaN(d.getTime())) return false;
     const today = new Date();
-    return invDate > today;
+    today.setHours(23, 59, 59, 999);
+    return d > today;
   } catch {
     return false;
   }
@@ -54,8 +67,8 @@ export function buildFraudSignals(params: AnalysisParams): FraudSignal[] {
     signals.push({ label: "Duplicate invoice detected" });
   }
 
-  // 2. GSTIN Structural Integrity
-  if (isInvalidGSTIN(invoice.vendor_gstin)) {
+  // 2. GSTIN Structural Integrity (Only if value exists)
+  if (invoice.vendor_gstin && isInvalidGSTIN(invoice.vendor_gstin)) {
     signals.push({ label: "Invalid GSTIN format detected" });
   }
 
@@ -86,7 +99,7 @@ export function buildFraudSignals(params: AnalysisParams): FraudSignal[] {
 
   // 8. Serial Pattern Check
   const simpleNumbers = ["1", "001", "INV-1", "INV-001", "TEST"];
-  if (simpleNumbers.includes(invoice.invoice_number.toUpperCase()) && invoice.total_amount > 10000) {
+  if (invoice.invoice_number && simpleNumbers.includes(String(invoice.invoice_number).toUpperCase()) && (invoice.total_amount || 0) > 10000) {
     signals.push({ label: "Generic/Placeholder invoice number" });
   }
 
@@ -97,17 +110,31 @@ export function calculateRiskScore(params: AnalysisParams): RiskScore {
   const { invoice, isDuplicate } = params;
   const fraudSignals = buildFraudSignals(params);
 
-  // Instant High Risk
-  if (isDuplicate || hasTotalMismatch(invoice) || isFutureDate(invoice.invoice_date)) {
+  // --- REFINED RISK LOGIC ---
+  
+  // 1. CRITICAL FRAUD (Instant HIGH)
+  // Significant math mismatch (> 5% of total or > 100 units)
+  const mathDiff = Math.abs((invoice.subtotal || 0) + (invoice.tax_amount || 0) - (invoice.total_amount || 0));
+  const isSignificantMismatch = mathDiff > 2 && mathDiff > (invoice.total_amount || 0) * 0.05;
+  
+  if (isSignificantMismatch || isFutureDate(invoice.invoice_date)) {
     return "HIGH";
   }
 
-  // Cumulative Risk
-  if (fraudSignals.length >= 2 || (invoice.tax_mismatch_percent && invoice.tax_mismatch_percent > 5)) {
+  // 2. CUMULATIVE HIGH (3+ signals)
+  if (fraudSignals.length >= 3) {
     return "HIGH";
   }
 
-  if (fraudSignals.length === 1 || invoice.mixed_tax_rates_detected || invoice.tax_mismatch || isInvalidGSTIN(invoice.vendor_gstin)) {
+  // 3. MEDIUM RISK
+  // Duplicates, minor math errors, or 1-2 generic signals
+  if (
+    isDuplicate || 
+    fraudSignals.length >= 1 ||
+    invoice.mixed_tax_rates_detected || 
+    invoice.tax_mismatch || 
+    (invoice.vendor_gstin && isInvalidGSTIN(invoice.vendor_gstin))
+  ) {
     return "MEDIUM";
   }
 
@@ -127,10 +154,14 @@ export function buildComplianceAdvisor(params: AnalysisParams): ComplianceAdviso
     warnings.push("Vendor name missing");
   }
 
-  if (!isInvalidGSTIN(invoice.vendor_gstin)) {
-    checks.push("GSTIN format is valid");
+  if (invoice.vendor_gstin) {
+    if (!isInvalidGSTIN(invoice.vendor_gstin)) {
+      checks.push("GSTIN format is valid");
+    } else {
+      warnings.push("Vendor GSTIN format is non-standard");
+    }
   } else {
-    warnings.push("Vendor GSTIN format is non-standard");
+    warnings.push("Vendor GSTIN missing (Required for tax filing)");
   }
 
   // Currency & Math
