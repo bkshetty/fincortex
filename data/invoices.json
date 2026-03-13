@@ -1,0 +1,55 @@
+[
+  {
+    "vendor_name": "VERVE Financial Services Private Limited",
+    "vendor_gstin": "33AABCL398G2ZH",
+    "invoice_number": "2017-40",
+    "invoice_date": "20-07-2017",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "subtotal": 4152,
+    "tax_amount": 747.36,
+    "total_amount": 4899.36,
+    "tax_type": "GST",
+    "effective_tax_rate": 18,
+    "cgst_amount": 373.68,
+    "sgst_amount": 373.68,
+    "igst_amount": 0,
+    "cess_amount": 0,
+    "cgst_rate": 9,
+    "sgst_rate": 9,
+    "igst_rate": 0,
+    "cess_rate": 0,
+    "tax_mismatch": false,
+    "tax_mismatch_percent": 0,
+    "mixed_tax_rates_detected": false,
+    "currency_inconsistency": false,
+    "risk_score": "MEDIUM",
+    "compliance_advisor": {
+      "checks": [
+        "Vendor identity verified",
+        "Currency format is consistent",
+        "Invoice math is verified (Subtotal + Tax = Total)",
+        "Invoice date is valid"
+      ],
+      "warnings": [
+        "Vendor GSTIN format is non-standard",
+        "Invalid GSTIN format detected"
+      ],
+      "recommendation": "SYSTEM ALERT: Discrepancies found. Review fraud signals and AI-drafted vendor email before proceeding."
+    },
+    "fraud_signals": [
+      {
+        "label": "Invalid GSTIN format detected"
+      }
+    ],
+    "image_hash": "c26e963f31e1e9e331e528ae08ee48848d7320ba4c31c96f6e3dd9256931b312",
+    "payment_status": "PENDING",
+    "draft_vendor_email": {
+      "subject": "Action Required: Compliance Issue with Invoice 2017-40",
+      "body": "Dear VERVE Financial Services Private Limited team,\n\nWe are writing to bring to your attention a compliance issue with invoice #2017-40, dated [date not provided]. Our system has flagged this invoice due to a non-standard Vendor GSTIN format.\n\nSpecifically, the GSTIN format detected on the invoice is invalid. As per our records, a valid GSTIN is a 15-digit number, and we require this information to be in the correct format to process payments.\n\nWe kindly request that you review the invoice and provide a corrected version with the accurate GSTIN information. This will enable us to proceed with the payment of 4899.36 INR.\n\nPlease find the details of the invoice in question below:\n- Invoice #: 2017-40\n- Total Amount: 4899.36 INR\n\nWe appreciate your prompt attention to this matter, and we look forward to receiving the corrected invoice at your earliest convenience.\n\nThank you for your cooperation.\n\nBest regards,\nCompliance Team, CompliancePilot AI",
+      "generated_at": "2026-03-13T14:30:00.518Z"
+    },
+    "id": "6f9cd60e-dcab-46ad-b7fb-0ec928bdaf0e",
+    "created_at": "2026-03-13T14:30:00.527Z"
+  }
+]
