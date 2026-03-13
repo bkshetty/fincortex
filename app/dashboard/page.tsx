@@ -99,7 +99,7 @@ export default function UploadHub() {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-3xl p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto ${isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 scale-[1.02]' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
+              className={`border-2 border-dashed rounded-[3rem] p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto ${isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 scale-[1.02]' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
             >
               <input 
                 type="file" 
@@ -141,7 +141,7 @@ export default function UploadHub() {
           </div>
 
           {/* HISTORY TABLE */}
-          <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">
+          <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-3xl shadow-sm overflow-hidden transition-colors duration-300">
             <div className="p-6 border-b border-slate-200 dark:border-white/10 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
               <div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Invoices</h3>
@@ -154,7 +154,7 @@ export default function UploadHub() {
                   placeholder="Search vendor or ID..." 
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all" 
+                  className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all" 
                 />
               </div>
             </div>
@@ -210,12 +210,12 @@ export default function UploadHub() {
       ) : (
 
         /* STATE 2: THE SPLIT-SCREEN VERIFICATION */
-        <div className="flex flex-col lg:flex-row h-[85vh] bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-500 transition-colors">
+        <div className="flex flex-col lg:flex-row h-[85vh] bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-500 transition-colors">
           
           {/* LEFT: Document Viewer */}
           <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-black/50 p-6 flex flex-col transition-colors">
             <h3 className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-widest mb-4 transition-colors">Source Document</h3>
-            <div className="flex-1 rounded-xl overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-transparent flex items-center justify-center p-2 transition-colors shadow-inner">
+            <div className="flex-1 rounded-2xl overflow-hidden bg-white dark:bg-white/5 border border-slate-200 dark:border-transparent flex items-center justify-center p-2 transition-colors shadow-inner">
                {/* eslint-disable-next-line @next/next/no-img-element */}
                <img src={extractedData.fileUrl} alt="Invoice" className="max-w-full max-h-full object-contain rounded-lg" />
             </div>
@@ -246,19 +246,19 @@ export default function UploadHub() {
 
               {/* Data Summary Grid */}
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Vendor</p>
                   <p className="text-lg font-bold text-slate-900 dark:text-white truncate">{extractedData.vendorName}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Amount</p>
                   <p className="text-lg font-bold text-slate-900 dark:text-white font-mono">{extractedData.amount}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Invoice #</p>
                   <p className="text-base font-semibold text-slate-700 dark:text-gray-300">{extractedData.invoiceNumber}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Date</p>
                   <p className="text-base font-semibold text-slate-700 dark:text-gray-300">{extractedData.date}</p>
                 </div>
@@ -282,7 +282,7 @@ export default function UploadHub() {
 
               {/* Warnings List */}
               {extractedData.compliance_advisor?.warnings && extractedData.compliance_advisor.warnings.length > 0 && (
-                <div className="mb-8 p-4 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/30 rounded-xl transition-colors">
+                <div className="mb-8 p-4 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/30 rounded-2xl transition-colors">
                   <h3 className="text-sm font-bold text-orange-800 dark:text-orange-400 mb-3 flex items-center gap-2">
                     <AlertTriangle size={18} /> Advisories & Warnings
                   </h3>
@@ -326,10 +326,10 @@ export default function UploadHub() {
               </div>
 
               <div className="flex gap-3">
-                <button onClick={() => setExtractedData(null)} className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all font-semibold text-sm bg-white dark:bg-transparent shadow-sm dark:shadow-none">
+                <button onClick={() => setExtractedData(null)} className="flex-1 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all font-semibold text-sm bg-white dark:bg-transparent shadow-sm dark:shadow-none">
                   Discard
                 </button>
-                <button className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 text-sm">
+                <button className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-2xl transition-all shadow-lg shadow-blue-600/20 text-sm">
                   Commit to Ledger
                 </button>
               </div>

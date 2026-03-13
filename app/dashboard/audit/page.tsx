@@ -72,12 +72,12 @@ export default function CAAuditDashboard() {
         </div>
         
         <div className="flex flex-wrap items-center gap-3">
-          <button className="flex items-center gap-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-gray-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm dark:shadow-none text-sm">
+          <button className="flex items-center gap-2 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-gray-300 px-4 py-2.5 rounded-full font-semibold hover:bg-slate-50 dark:hover:bg-white/10 transition-all shadow-sm dark:shadow-none text-sm">
             <Download size={16} /> Export GSTR-2B Recon
           </button>
           <button 
             onClick={() => setShowApproveConfirm(true)}
-            className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-gray-200 transition-all shadow-lg text-sm"
+            className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-full font-bold hover:bg-slate-800 dark:hover:bg-gray-200 transition-all shadow-lg text-sm"
           >
             <CheckCircle2 size={16} /> Approve Monthly Ledger
           </button>
@@ -86,7 +86,7 @@ export default function CAAuditDashboard() {
 
       {/* TOP METRICS FOR CA */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
+        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
           <div className="flex justify-between items-start mb-4">
             <p className="text-xs font-bold text-slate-500 dark:text-gray-400 tracking-wider uppercase">Pending ITC</p>
             <div className="bg-purple-50 dark:bg-purple-500/10 p-2 rounded-lg text-purple-600 dark:text-purple-400"><IndianRupee size={18} /></div>
@@ -95,7 +95,7 @@ export default function CAAuditDashboard() {
           <p className="text-xs font-semibold text-slate-500 dark:text-gray-500">Unreconciled against GSTR-2B</p>
         </div>
 
-        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
+        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
           <div className="flex justify-between items-start mb-4">
             <p className="text-xs font-bold text-slate-500 dark:text-gray-400 tracking-wider uppercase">Compliance Score</p>
             <div className="bg-green-50 dark:bg-green-500/10 p-2 rounded-lg text-green-600 dark:text-green-400"><Activity size={18} /></div>
@@ -107,7 +107,7 @@ export default function CAAuditDashboard() {
           <p className="text-xs font-semibold text-slate-500 dark:text-gray-500">Based on AI vendor checks</p>
         </div>
 
-        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-2xl border border-red-200 dark:border-red-500/30 shadow-sm relative overflow-hidden group">
+        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-3xl border border-red-200 dark:border-red-500/30 shadow-sm relative overflow-hidden group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-red-100 dark:bg-red-500/10 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110 pointer-events-none"></div>
           <div className="flex justify-between items-start mb-4 relative z-10">
             <p className="text-xs font-bold text-red-600 dark:text-red-400 tracking-wider uppercase">Action Required</p>
@@ -117,7 +117,7 @@ export default function CAAuditDashboard() {
           <p className="text-xs font-semibold text-red-500 dark:text-red-400/80 relative z-10">Invoices halted by AI</p>
         </div>
 
-        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
+        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
           <div className="flex justify-between items-start mb-4">
             <p className="text-xs font-bold text-slate-500 dark:text-gray-400 tracking-wider uppercase">Total Audited (YTD)</p>
             <div className="bg-blue-50 dark:bg-blue-500/10 p-2 rounded-lg text-blue-600 dark:text-blue-400"><Calculator size={18} /></div>
@@ -131,7 +131,7 @@ export default function CAAuditDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         
         {/* COMPLIANCE PIE CHART */}
-        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 lg:col-span-1 flex flex-col">
+        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 lg:col-span-1 flex flex-col">
           <h2 className="text-sm font-bold text-slate-900 dark:text-white mb-6 uppercase tracking-wider">ITC Match Status (Current Mo)</h2>
           <div className="flex-1 min-h-[250px] w-full relative -ml-4">
             <ResponsiveContainer width="100%" height="100%">
@@ -171,7 +171,7 @@ export default function CAAuditDashboard() {
         </div>
 
         {/* RECONCILIATION AREA CHART */}
-        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 lg:col-span-2 flex flex-col">
+        <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md p-6 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 lg:col-span-2 flex flex-col">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">ITC Claimed vs Actual Recon (YTD)</h2>
             <button className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-blue-100 dark:hover:bg-blue-500/20 transition-colors">
@@ -209,7 +209,7 @@ export default function CAAuditDashboard() {
       </div>
 
       {/* ANOMALY DETECTION TABLE */}
-      <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 overflow-hidden">
+      <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 overflow-hidden">
         <div className="p-6 border-b border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
             <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-1 tracking-tight">AI-Flagged Ledger Anomalies</h2>
@@ -218,9 +218,9 @@ export default function CAAuditDashboard() {
           <div className="flex items-center gap-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-4" />
-              <input type="text" placeholder="Search invoices..." className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full md:w-64 transition-all" />
+              <input type="text" placeholder="Search invoices..." className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full md:w-64 transition-all" />
             </div>
-            <button className="p-2 border border-slate-200 dark:border-white/10 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">
+            <button className="p-2 border border-slate-200 dark:border-white/10 rounded-full text-slate-500 hover:bg-slate-50 dark:hover:bg-white/10 transition-colors">
               <Filter size={18} />
             </button>
           </div>
