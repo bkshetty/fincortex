@@ -140,7 +140,7 @@ export default function UploadHub() {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-3xl p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto ${isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 scale-[1.02]' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
+              className={`border-2 border-dashed rounded-[3rem] p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto ${isDragActive ? 'border-blue-500 bg-blue-50 dark:bg-blue-500/10 scale-[1.02]' : 'border-slate-300 dark:border-white/20 bg-slate-50 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10'}`}
             >
               <input
                 type="file"
@@ -181,12 +181,18 @@ export default function UploadHub() {
             </div>
           </div>
 
+<<<<<<< HEAD
           <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">
+=======
+          {/* HISTORY TABLE */}
+          <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-3xl shadow-sm overflow-hidden transition-colors duration-300">
+>>>>>>> c111fd5d22169139fc22ef3ca8a4b6d47ea91f61
             <div className="p-6 border-b border-slate-200 dark:border-white/10 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
               <div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Invoices</h3>
                 <p className="text-sm text-slate-500 dark:text-gray-400">View previously analyzed bills.</p>
               </div>
+<<<<<<< HEAD
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-4" />
@@ -203,6 +209,17 @@ export default function UploadHub() {
                     <Trash2 size={20} />
                   </button>
                 )}
+=======
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-4" />
+                <input 
+                  type="text" 
+                  placeholder="Search vendor or ID..." 
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all" 
+                />
+>>>>>>> c111fd5d22169139fc22ef3ca8a4b6d47ea91f61
               </div>
             </div>
             <div className="overflow-x-auto">
@@ -293,19 +310,19 @@ export default function UploadHub() {
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Vendor</p>
                   <p className="text-lg font-bold text-slate-900 dark:text-white truncate">{extractedData.vendorName || "N/A"}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Amount</p>
                   <p className="text-lg font-bold text-slate-900 dark:text-white font-mono">{extractedData.amount}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Invoice #</p>
                   <p className="text-base font-semibold text-slate-700 dark:text-gray-300">{extractedData.invoiceNumber || "N/A"}</p>
                 </div>
-                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-xl border border-slate-100 dark:border-white/5 transition-colors">
+                <div className="bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5 transition-colors">
                   <p className="text-xs font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mb-1">Date</p>
                   <p className="text-base font-semibold text-slate-700 dark:text-gray-300">{extractedData.date || "N/A"}</p>
                 </div>
@@ -327,7 +344,7 @@ export default function UploadHub() {
               )}
 
               {extractedData.compliance_advisor?.warnings && extractedData.compliance_advisor.warnings.length > 0 && (
-                <div className="mb-8 p-4 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/30 rounded-xl transition-colors">
+                <div className="mb-8 p-4 bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/30 rounded-2xl transition-colors">
                   <h3 className="text-sm font-bold text-orange-800 dark:text-orange-400 mb-3 flex items-center gap-2">
                     <AlertTriangle size={18} /> Advisories & Warnings
                   </h3>
@@ -364,11 +381,16 @@ export default function UploadHub() {
               </div>
 
               <div className="flex gap-3">
-                <button onClick={() => setExtractedData(null)} className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all font-semibold text-sm bg-white dark:bg-transparent shadow-sm dark:shadow-none">
+                <button onClick={() => setExtractedData(null)} className="flex-1 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all font-semibold text-sm bg-white dark:bg-transparent shadow-sm dark:shadow-none">
                   Discard
                 </button>
+<<<<<<< HEAD
                 <button onClick={() => setExtractedData(null)} className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 text-sm">
                   Record Saved
+=======
+                <button className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-2xl transition-all shadow-lg shadow-blue-600/20 text-sm">
+                  Commit to Ledger
+>>>>>>> c111fd5d22169139fc22ef3ca8a4b6d47ea91f61
                 </button>
               </div>
             </div>

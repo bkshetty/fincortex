@@ -22,9 +22,9 @@ export default function GlassNavbar() {
   }, []);
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl mx-auto px-6 py-4 flex items-center justify-between bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/20 rounded-3xl z-50 shadow-lg shadow-black/5 transition-colors duration-300">
+    <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl mx-auto px-6 py-4 flex items-center justify-between bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/20 rounded-full z-50 shadow-lg shadow-black/5 transition-colors duration-300">
       <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <div className="bg-white dark:bg-white/10 p-1 rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] dark:shadow-none border border-slate-100 dark:border-white/5 flex items-center justify-center h-10 w-10">
+        <div className="bg-white dark:bg-white/10 p-1 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.08)] dark:shadow-none border border-slate-100 dark:border-white/5 flex items-center justify-center h-10 w-10">
           <Image src="/logo.png" alt="compliance.ai Logo" width={32} height={32} className="object-contain w-full h-full" />
         </div>
         <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">compliance.ai</span>
@@ -62,7 +62,7 @@ export default function GlassNavbar() {
               </button>
 
               {showProfileMenu && (
-                <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-lg border border-slate-200 dark:border-white/10 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg border border-slate-200 dark:border-white/10 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="p-3 border-b border-slate-100 dark:border-white/5">
                     <p className="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wide">Signed in as</p>
                     <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user.email}</p>

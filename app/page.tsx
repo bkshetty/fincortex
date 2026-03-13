@@ -18,7 +18,7 @@ export default function LandingPage() {
     return () => unsub();
   }, []);
   return (
-    <div className="min-h-screen relative flex flex-col items-center overflow-x-hidden bg-[#fafafa] dark:bg-[#0a0a0a] transition-colors duration-300">
+    <div className="min-h-screen relative flex flex-col items-center overflow-x-hidden transition-colors duration-300 text-slate-900 dark:text-white">
       
       {/* ANIMATED SMOKY TEXTURE BACKGROUND */}
       {/* This uses an SVG radial gradient layered with a subtle noise filter to create a premium "smoky/frosted" texture */}
@@ -76,24 +76,24 @@ export default function LandingPage() {
       {/* FEATURE GRIDS (Visual eye-candy) */}
       <section id="features" className="w-full max-w-7xl mx-auto px-6 py-24 relative z-10 border-t border-slate-200/60 dark:border-white/5 transition-colors duration-300">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl dark:hover:border-blue-500/50 hover:border-blue-200 transition-all group">
-            <div className="bg-blue-50 dark:bg-blue-600/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
+          <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl dark:hover:border-blue-500/50 hover:border-blue-200 transition-all group">
+            <div className="bg-blue-50 dark:bg-blue-600/10 w-14 h-14 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
               <Activity className="text-blue-600 dark:text-blue-400" size={28} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Real-time Risk Scoring</h3>
             <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed font-medium transition-colors duration-300">Instantly analyze invoices against millions of ledger records to detect anomalies, duplicate spending, and vendor fraud immediately.</p>
           </div>
 
-          <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl dark:hover:border-purple-500/50 hover:border-indigo-200 transition-all group">
-            <div className="bg-indigo-50 dark:bg-purple-600/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
+          <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl dark:hover:border-purple-500/50 hover:border-indigo-200 transition-all group">
+            <div className="bg-indigo-50 dark:bg-purple-600/10 w-14 h-14 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
               <FileText className="text-indigo-600 dark:text-purple-400" size={28} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Autonomous Extraction</h3>
             <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed font-medium transition-colors duration-300">Our multi-modal agentic AI reads PDFs, JPGs, and PNGs with 99.8% accuracy—eliminating manual data entry entirely.</p>
           </div>
 
-          <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl dark:hover:border-green-500/50 hover:border-emerald-200 transition-all group">
-            <div className="bg-emerald-50 dark:bg-green-600/10 w-14 h-14 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
+          <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-sm hover:shadow-xl dark:hover:border-green-500/50 hover:border-emerald-200 transition-all group">
+            <div className="bg-emerald-50 dark:bg-green-600/10 w-14 h-14 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
               <Lock className="text-emerald-600 dark:text-green-400" size={28} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Enterprise Security</h3>

@@ -75,15 +75,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0a] flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300 text-slate-900 dark:text-white">
       
       {/* Background glow effects */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/50 dark:bg-blue-600/20 blur-[100px] dark:blur-[120px] rounded-full pointer-events-none transition-all duration-300"></div>
 
-      <div className="w-full max-w-md bg-white/80 dark:bg-white/10 backdrop-blur-2xl border border-white/50 dark:border-white/10 p-10 rounded-3xl shadow-xl dark:shadow-2xl relative z-10 text-center transition-all duration-300">
+      <div className="w-full max-w-md bg-white/80 dark:bg-white/10 backdrop-blur-2xl border border-white/50 dark:border-white/10 p-10 rounded-[2.5rem] shadow-xl dark:shadow-2xl relative z-10 text-center transition-all duration-300">
         
         <Link href="/" className="inline-block">
-          <div className="bg-slate-50 dark:bg-white/10 w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-6 border border-slate-200 dark:border-white/5 p-2 shadow-sm dark:shadow-lg transition-colors duration-300 hover:scale-105 transition-transform">
+          <div className="bg-slate-50 dark:bg-white/10 w-16 h-16 rounded-3xl mx-auto flex items-center justify-center mb-6 border border-slate-200 dark:border-white/5 p-2 shadow-sm dark:shadow-lg transition-colors duration-300 hover:scale-105 transition-transform">
             <Image src="/logo.png" alt="compliance.ai Logo" width={48} height={48} className="object-contain w-full h-full" />
           </div>
         </Link>
@@ -100,7 +100,7 @@ export default function LoginPage() {
                     placeholder="Email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                    className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
                     required
                 />
             </div>
@@ -114,7 +114,7 @@ export default function LoginPage() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                    className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
                     required
                 />
             </div>
@@ -122,7 +122,7 @@ export default function LoginPage() {
             <button 
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-50 shadow-md"
+                className="w-full bg-blue-600 text-white font-bold py-3.5 rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-2 mt-2 disabled:opacity-50 shadow-md"
             >
                 {loading ? "Authenticating..." : (isLogin ? "Sign In" : "Create Account")}
                 {!loading && <ArrowRight size={18} />}
@@ -139,7 +139,7 @@ export default function LoginPage() {
           onClick={handleGoogleLogin}
           type="button"
           disabled={loading}
-          className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-white font-bold py-3.5 rounded-xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-sm dark:shadow-none"
+          className="w-full bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-white font-bold py-3.5 rounded-2xl hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center justify-center gap-3 disabled:opacity-50 shadow-sm dark:shadow-none"
         >
           {loading ? (
             "Authenticating..."
@@ -169,7 +169,7 @@ export default function LoginPage() {
         </div>
 
         {errorMsg && (
-          <div className="mt-6 p-4 bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-xl text-red-600 dark:text-red-400 text-sm text-center transition-colors duration-300">
+          <div className="mt-6 p-4 bg-red-100 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-2xl text-red-600 dark:text-red-400 text-sm text-center transition-colors duration-300">
             {errorMsg}
           </div>
         )}

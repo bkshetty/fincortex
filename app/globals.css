@@ -21,3 +21,30 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* ABSTRACT DEEP MESH ANIMATIONS */
+@keyframes fluid-move-1 {
+  0% { transform: translate(0vw, 0vh) rotate(0deg) scale(1); border-radius: 50%; }
+  33% { transform: translate(10vw, -10vh) rotate(120deg) scale(1.2); border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%; }
+  66% { transform: translate(-5vw, 15vh) rotate(240deg) scale(0.9); border-radius: 40% 60% 50% 50% / 40% 50% 60% 50%; }
+  100% { transform: translate(0vw, 0vh) rotate(360deg) scale(1); border-radius: 50%; }
+}
+
+@keyframes fluid-move-2 {
+  0% { transform: translate(0vw, 0vh) rotate(0deg) scale(1); border-radius: 50%; }
+  33% { transform: translate(-10vw, 5vh) rotate(-120deg) scale(1.1); border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%; }
+  66% { transform: translate(10vw, -10vh) rotate(-240deg) scale(1.3); border-radius: 60% 40% 50% 50% / 50% 60% 40% 50%; }
+  100% { transform: translate(0vw, 0vh) rotate(-360deg) scale(1); border-radius: 50%; }
+}
+
+.animate-fluid-1 {
+  animation: fluid-move-1 25s infinite linear;
+}
+
+.animate-fluid-2 {
+  animation: fluid-move-2 30s infinite linear;
+}
+
+.animate-fluid-3 {
+  animation: fluid-move-1 35s infinite linear reverse;
+}
