@@ -534,6 +534,16 @@ export async function POST(req: Request) {
     */
 
     const isDuplicate = await findDuplicateInvoice(extractedInvoice.invoice_number, extractedInvoice.vendor_name);
+
+    if (isDuplicate) {
+        console.log(`[process-invoice] Blocking duplicate invoice: ${extractedInvoice.invoice_number} from ${extractedInvoice.vendor_name}`);
+        return withCors(NextResponse.json({ 
+          success: false, 
+          isDuplicate: true,
+          message: "DUPLICATE DETECTED: This invoice has already been processed!" 
+        }, { status: 409 }), origin);
+    }
+
     const riskScore = calculateRiskScore({ invoice: extractedInvoice, isDuplicate });
     const complianceAdvisor = buildComplianceAdvisor({ invoice: extractedInvoice, isDuplicate });
     const fraudSignals = buildFraudSignals({ invoice: extractedInvoice, isDuplicate });
@@ -589,12 +599,16 @@ export async function POST(req: Request) {
       storedInvoiceData.notification_sent = true;
     }
 
-    const stored = await saveInvoice(storedInvoiceData);
-
+    // Final result - DO NOT SAVE yet, user will approve first
     return withCors(NextResponse.json({
       success: true,
+      isDuplicate: false,
       message: hasAIConfig() ? "Invoice analyzed successfully" : "Invoice analyzed in demo mode",
-      invoice: stored
+      invoice: {
+        ...taskData,
+        image_url: invoiceUrl,
+        is_duplicate: false
+      }
     }), origin);
   } catch (error) {
     console.error("[process-invoice] CRITICAL ERROR IN POST HANDLER:", error);

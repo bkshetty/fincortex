@@ -56,8 +56,8 @@ export async function findDuplicateInvoice(
   try {
     const count = await prisma.invoice.count({
       where: {
-        invoice_number: invoiceNumber.trim(),
-        vendor_name: vendorName.trim(),
+        invoice_number: { equals: invoiceNumber.trim(), mode: 'insensitive' },
+        vendor_name: { equals: vendorName.trim(), mode: 'insensitive' },
       },
     });
     return count > 0;
@@ -91,15 +91,18 @@ export async function saveInvoice(invoice: InvoiceData): Promise<InvoiceData> {
     delete data.id;
 
     if (id) {
+      console.log(`[invoiceStore] Updating existing invoice: ${id}`);
       const updated = await prisma.invoice.update({
         where: { id },
         data,
       });
       return updated as unknown as InvoiceData;
     } else {
+      console.log(`[invoiceStore] Creating new invoice in Prisma database...`);
       const created = await prisma.invoice.create({
         data,
       });
+      console.log(`[invoiceStore] New invoice created with ID: ${created.id}`);
       return created as unknown as InvoiceData;
     }
   } catch (error) {

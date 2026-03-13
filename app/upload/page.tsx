@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from 'react';
-import { UploadCloud, CheckCircle2, AlertTriangle, ArrowRight, File as FileIcon, Loader2, Send, MessageSquare } from 'lucide-react';
+import { UploadCloud, CheckCircle2, AlertTriangle, ArrowRight, File as FileIcon, Loader2, Send, MessageSquare, ShieldAlert, ShieldCheck, Ban } from 'lucide-react';
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [isDragActive, setIsDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [extractedData, setExtractedData] = useState<any>(null);
-  const [chatMessage, setChatMessage] = useState("");
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDuplicateBlock, setIsDuplicateBlock] = useState(false);
 
   const formatCurrency = (val: number, currency = "INR") => {
     try {
@@ -37,6 +39,13 @@ export default function UploadPage() {
 
       const result = await res.json();
 
+      // Intercept 409 DUPLICATE before treating it as a generic error
+      if (res.status === 409 && result.isDuplicate) {
+        setIsDuplicateBlock(true);
+        setLoading(false); // Must call this explicitly since we're returning early before finally
+        return;
+      }
+
       if (!res.ok) {
         throw new Error(result.message || "Failed to process invoice");
       }
@@ -62,7 +71,10 @@ export default function UploadPage() {
         compliance_advisor: inv.compliance_advisor,
         fraud_signals: inv.fraud_signals,
         draft_vendor_email: inv.draft_vendor_email,
-        id: inv.id
+        image_hash: inv.image_hash,
+        image_url: inv.image_url,
+        id: inv.id,
+        isDuplicate: result.isDuplicate || false
       });
 
     } catch (err: any) {
@@ -70,6 +82,69 @@ export default function UploadPage() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleReset = () => {
+    setFile(null);
+    setExtractedData(null);
+    setError(null);
+    setIsDuplicateBlock(false);
+    setSuccess(false);
+  };
+
+  const handleSave = async () => {
+    if (!extractedData || saving || success) return;
+    setSaving(true);
+    setError(null);
+
+    try {
+      // Reconstruct the invoice data object for the backend
+      const invoiceToSave = {
+        vendor_name: extractedData.vendorName,
+        vendor_gstin: extractedData.gstin,
+        invoice_number: extractedData.invoiceNumber,
+        invoice_date: extractedData.date,
+        currency: extractedData.currency,
+        subtotal: extractedData.subtotal,
+        tax_amount: extractedData.taxAmount,
+        total_amount: extractedData.amount,
+        tax_type: "GST",
+        effective_tax_rate: extractedData.effectiveTaxRate,
+        cgst_rate: extractedData.cgst_rate,
+        sgst_rate: extractedData.sgst_rate,
+        igst_rate: extractedData.igst_rate,
+        cess_rate: extractedData.cess_rate,
+        risk_score: extractedData.riskScore,
+        compliance_advisor: extractedData.compliance_advisor,
+        fraud_signals: extractedData.fraud_signals,
+        draft_vendor_email: extractedData.draft_vendor_email,
+        image_hash: extractedData.image_hash,
+        image_url: extractedData.image_url,
+        payment_status: extractedData.riskScore === "HIGH" ? "BLOCKED" : "PENDING"
+      };
+
+      const res = await fetch('/api/save-invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invoice: invoiceToSave }),
+      });
+
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message || "Failed to save invoice");
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setExtractedData(null);
+        setFile(null);
+      }, 2000);
+
+    } catch (err: any) {
+      console.error("Save error:", err);
+      setError(err.message);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -93,6 +168,44 @@ export default function UploadPage() {
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto min-h-full flex flex-col justify-start transition-colors duration-300">
 
+      {/* ────────────────────────────────────────────── */}
+      {/* FRAUD ALERT HARD-STOP SCREEN                     */}
+      {/* ────────────────────────────────────────────── */}
+      {isDuplicateBlock && (
+        <div className="w-full max-w-2xl mx-auto mt-10 md:mt-20 flex flex-col items-center gap-6 text-center animate-in fade-in duration-300">
+          <div className="relative">
+            <div className="bg-red-600 p-6 rounded-full shadow-2xl shadow-red-600/40 animate-pulse">
+              <ShieldAlert size={56} className="text-white" />
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold text-red-500 uppercase tracking-[0.3em] mb-3">Fraud Prevention System</p>
+            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">
+              Duplicate Invoice Detected
+            </h2>
+            <p className="text-slate-600 dark:text-slate-400 text-base max-w-md leading-relaxed">
+              This invoice was already processed and saved in a previous session.
+              Re-submitting an processed invoice is a potential fraud signal and has been blocked.
+            </p>
+          </div>
+          <div className="w-full max-w-sm bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800 rounded-2xl p-5 text-left">
+            <p className="text-xs font-bold text-red-600 uppercase tracking-widest mb-2">Why was this blocked?</p>
+            <ul className="text-sm text-red-700 dark:text-red-400 space-y-1 list-disc list-inside">
+              <li>Exact Vendor Name match found in ledger</li>
+              <li>Exact Invoice Number match found in ledger</li>
+              <li>Duplicate payments are a top financial fraud vector</li>
+            </ul>
+          </div>
+          <button
+            onClick={handleReset}
+            className="mt-2 bg-[#0A0F2C] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#151a3a] transition-all shadow-md flex items-center gap-2"
+          >
+            <Ban size={18} />
+            Discard &amp; Start Over
+          </button>
+        </div>
+      )}
+
       {error && (
         <div className="w-full max-w-2xl mx-auto mt-10 md:mt-20 flex flex-col items-center gap-6 text-center animate-in fade-in duration-300">
           <div className="bg-red-100 p-5 rounded-full">
@@ -103,7 +216,7 @@ export default function UploadPage() {
             <p className="text-red-600 dark:text-red-400 font-semibold text-base max-w-md">{error}</p>
           </div>
           <button
-            onClick={() => { setError(null); setFile(null); }}
+            onClick={handleReset}
             className="mt-2 bg-[#0A0F2C] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#151a3a] transition-all shadow-md"
           >
             Try Again
@@ -111,7 +224,7 @@ export default function UploadPage() {
         </div>
       )}
 
-      {!error && !extractedData ? (
+      {!isDuplicateBlock && !error && !extractedData ? (
         /* THE UPLOAD DROPZONE */
         <div className="w-full max-w-2xl mx-auto flex flex-col gap-8 mt-10 md:mt-20">
           <div>
@@ -171,22 +284,26 @@ export default function UploadPage() {
         /* THE VERIFICATION CARD - Redesigned to match the screenshot Exactly */
         <div className="flex flex-col gap-6 mx-auto w-full max-w-3xl animate-in fade-in zoom-in-95 duration-500 transition-colors">
 
+
           {/* Analysis Result Card (The UI to build exactly) */}
           <div className="w-full flex flex-col gap-6">
             
-            <div className="bg-white dark:bg-[#111111] rounded-[1.5rem] p-8 shadow-[0px_4px_24px_rgba(0,0,0,0.02)] border border-[#E9EDF4] dark:border-white/5 transition-colors">
+            <div className={`bg-white dark:bg-[#111111] rounded-[1.5rem] p-8 shadow-[0px_4px_24px_rgba(0,0,0,0.02)] border transition-all ${extractedData.isDuplicate ? 'border-red-500 ring-4 ring-red-500/10' : 'border-[#E9EDF4] dark:border-white/5'}`}>
               <div className="flex justify-between items-center mb-8">
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 dark:text-gray-500 tracking-wider uppercase mb-1">Analysis Result Card</h4>
-                  <h2 className="text-2xl font-extrabold text-[#1B254B] dark:text-white transition-colors">Invoice analyzed successfully</h2>
+                  <h2 className="text-2xl font-extrabold text-[#1B254B] dark:text-white transition-colors">
+                    {extractedData.isDuplicate ? "Processing Blocked" : "Invoice analyzed successfully"}
+                  </h2>
                 </div>
 
                 <div className={`px-4 py-1.5 flex items-center justify-center rounded-lg text-xs font-bold ${
+                  extractedData.isDuplicate ? 'bg-red-600 text-white' :
                   extractedData.riskScore === 'LOW' ? 'bg-[#E5F9E9] text-[#05A660]' :
                   extractedData.riskScore === 'MEDIUM' ? 'bg-[#FFF4E5] text-[#FF8A00]' :
                   'bg-[#FFE5E5] text-[#E53935]'
                 }`}>
-                  {extractedData.riskScore}
+                  {extractedData.isDuplicate ? 'DUPLICATE' : extractedData.riskScore}
                 </div>
               </div>
 
@@ -319,18 +436,40 @@ export default function UploadPage() {
             {/* Navigation / Actions below card */}
             <div className="flex flex-col sm:flex-row gap-4 p-4 border border-slate-200 dark:border-white/10 rounded-2xl bg-white dark:bg-[#111111]">
                  <button onClick={() => setExtractedData(null)} className="flex-1 py-3 text-sm font-bold text-slate-500 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl transition-colors">
-                   Upload Another
+                   Discard & Try Another
                  </button>
-                 {extractedData.image_url && (
-                   <a 
-                    href={extractedData.image_url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex-1 py-3 text-sm font-bold text-blue-600 hover:bg-blue-50 dark:hover:bg-white/5 rounded-xl transition-colors text-center border border-blue-100 dark:border-blue-900/30"
-                   >
-                     View Uploaded File
-                   </a>
-                 )}
+                 
+                 <button 
+                  disabled={extractedData.isDuplicate || saving || success}
+                  onClick={handleSave}
+                  className={`flex-[2] py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all shadow-md ${
+                    extractedData.isDuplicate 
+                    ? 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-300' 
+                    : success ? 'bg-green-600 text-white cursor-default' : 'bg-[#0A0F2C] text-white hover:bg-[#151a3a]'
+                  }`}
+                 >
+                   {saving ? (
+                     <>
+                        <Loader2 size={18} className="animate-spin" />
+                        Saving to Ledger...
+                     </>
+                   ) : extractedData.isDuplicate ? (
+                     <>
+                       <Ban size={18} />
+                       Cannot Save Duplicate
+                     </>
+                   ) : success ? (
+                     <>
+                        <CheckCircle2 size={18} />
+                        Invoice Saved!
+                     </>
+                   ) : (
+                     <>
+                       <CheckCircle2 size={18} />
+                       Approve & Save
+                     </>
+                   )}
+                 </button>
             </div>
 
           </div>
