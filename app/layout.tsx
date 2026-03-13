@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className="antialiased">
       <body className={`${inter.className} bg-white dark:bg-[#0a0a0a] text-slate-900 dark:text-white flex h-screen overflow-hidden transition-colors duration-300`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="fincortex-theme">
           {/* THE DYNAMIC SIDEBAR (Hides on login and landing page) */}
           <Sidebar />
 
