@@ -181,18 +181,13 @@ export default function UploadHub() {
             </div>
           </div>
 
-<<<<<<< HEAD
-          <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">
-=======
           {/* HISTORY TABLE */}
           <div className="bg-white dark:bg-[#111111] border border-slate-200 dark:border-white/10 rounded-3xl shadow-sm overflow-hidden transition-colors duration-300">
->>>>>>> c111fd5d22169139fc22ef3ca8a4b6d47ea91f61
             <div className="p-6 border-b border-slate-200 dark:border-white/10 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
               <div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">Recent Invoices</h3>
                 <p className="text-sm text-slate-500 dark:text-gray-400">View previously analyzed bills.</p>
               </div>
-<<<<<<< HEAD
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-4" />
@@ -201,7 +196,7 @@ export default function UploadHub() {
                     placeholder="Search vendor or ID..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all"
+                    className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all"
                   />
                 </div>
                 {history.length > 0 && (
@@ -209,17 +204,6 @@ export default function UploadHub() {
                     <Trash2 size={20} />
                   </button>
                 )}
-=======
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-4" />
-                <input 
-                  type="text" 
-                  placeholder="Search vendor or ID..." 
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white w-full sm:w-64 transition-all" 
-                />
->>>>>>> c111fd5d22169139fc22ef3ca8a4b6d47ea91f61
               </div>
             </div>
             <div className="overflow-x-auto">
@@ -247,8 +231,8 @@ export default function UploadHub() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-3 py-1 text-xs font-bold rounded-full border flex items-center gap-1.5 w-max ${inv.risk_score === 'HIGH' ? 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/20' :
-                            inv.risk_score === 'MEDIUM' ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-500/20' :
-                              'bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-200 dark:border-green-500/20'
+                          inv.risk_score === 'MEDIUM' ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-500/20' :
+                            'bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-200 dark:border-green-500/20'
                           }`}>
                           {inv.risk_score === 'HIGH' ? <AlertTriangle size={12} /> : <CheckCircle2 size={12} />}
                           {inv.risk_score}
@@ -299,10 +283,10 @@ export default function UploadHub() {
                 </div>
 
                 <span className={`px-4 py-1.5 rounded-full text-sm font-bold flex items-center gap-2 border shadow-sm transition-colors ${extractedData.riskScore === 'LOW'
-                    ? 'bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-200 dark:border-green-500/20'
-                    : extractedData.riskScore === 'MEDIUM'
-                      ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-500/20'
-                      : 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/20'
+                  ? 'bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400 border-green-200 dark:border-green-500/20'
+                  : extractedData.riskScore === 'MEDIUM'
+                    ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-700 dark:text-orange-400 border-orange-200 dark:border-orange-500/20'
+                    : 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/20'
                   }`}>
                   {extractedData.riskScore === 'LOW' ? <CheckCircle2 size={16} /> : <AlertTriangle size={16} />}
                   {extractedData.riskScore} RISK
@@ -384,13 +368,8 @@ export default function UploadHub() {
                 <button onClick={() => setExtractedData(null)} className="flex-1 px-4 py-2.5 rounded-2xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-all font-semibold text-sm bg-white dark:bg-transparent shadow-sm dark:shadow-none">
                   Discard
                 </button>
-<<<<<<< HEAD
-                <button onClick={() => setExtractedData(null)} className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 text-sm">
-                  Record Saved
-=======
-                <button className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-2xl transition-all shadow-lg shadow-blue-600/20 text-sm">
+                <button onClick={() => setExtractedData(null)} className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-2xl transition-all shadow-lg shadow-blue-600/20 text-sm">
                   Commit to Ledger
->>>>>>> c111fd5d22169139fc22ef3ca8a4b6d47ea91f61
                 </button>
               </div>
             </div>

@@ -51,5 +51,59 @@
     },
     "id": "6f9cd60e-dcab-46ad-b7fb-0ec928bdaf0e",
     "created_at": "2026-03-13T14:30:00.527Z"
+  },
+  {
+    "vendor_name": "RELIANCE RETAIL LIMITED",
+    "vendor_gstin": "27AABCR1718E1ZP",
+    "invoice_number": "FMAH211477428372",
+    "invoice_date": "28-11-2023",
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "subtotal": 1479.2,
+    "tax_amount": 38.97,
+    "total_amount": 805.6,
+    "tax_type": "GST",
+    "effective_tax_rate": 2.63,
+    "cgst_amount": 0,
+    "sgst_amount": 0,
+    "igst_amount": 38.09,
+    "cess_amount": 0,
+    "cgst_rate": 0,
+    "sgst_rate": 0,
+    "igst_rate": 5,
+    "cess_rate": 0,
+    "tax_mismatch": true,
+    "tax_mismatch_percent": 46.94,
+    "mixed_tax_rates_detected": false,
+    "currency_inconsistency": false,
+    "risk_score": "HIGH",
+    "compliance_advisor": {
+      "checks": [
+        "Vendor identity verified",
+        "GSTIN format is valid",
+        "Currency format is consistent",
+        "Invoice date is valid"
+      ],
+      "warnings": [
+        "Invoice math mismatch (Possible data tempering)",
+        "Mathematical total inconsistency"
+      ],
+      "recommendation": "SYSTEM ALERT: Discrepancies found. Review fraud signals and AI-drafted vendor email before proceeding."
+    },
+    "fraud_signals": [
+      {
+        "label": "Mathematical total inconsistency"
+      }
+    ],
+    "image_hash": "f21e1c7dc52f22ac3f48d215f5f334e614f44f5d2ca9f38e0f68b78291adfc7c",
+    "payment_status": "BLOCKED",
+    "notification_sent": true,
+    "draft_vendor_email": {
+      "subject": "Action Required: Compliance Issue with Invoice FMAH211477428372",
+      "body": "Dear RELIANCE RETAIL LIMITED team,\n\nWe are writing to bring to your attention a compliance issue with invoice FMAH211477428372, dated [insert date]. Our system has flagged this invoice for a math mismatch and mathematical total inconsistency, suggesting possible data tampering.\n\nThe total amount on the invoice is 805.6 INR. However, our calculations indicate a discrepancy in the invoice's mathematical total. We require a corrected version of this invoice to process payment.\n\nCould you please verify the invoice details and provide a corrected version at your earliest convenience? We appreciate your prompt attention to this matter, as it will enable us to expedite payment.\n\nPlease find the details of the invoice in question below:\n- Invoice #: FMAH211477428372\n- Total Amount: 805.6 INR\n\nWe look forward to resolving this matter quickly with your cooperation.\n\nThank you for your understanding and cooperation.\n\nBest regards,\nCompliance Team, CompliancePilot AI",
+      "generated_at": "2026-03-13T14:40:06.751Z"
+    },
+    "id": "7d8bc91d-a8a4-4552-9d57-0d34d11b71e4",
+    "created_at": "2026-03-13T14:40:06.755Z"
   }
 ]
