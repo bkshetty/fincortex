@@ -24,15 +24,8 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen relative flex flex-col items-center overflow-x-hidden transition-colors duration-300 text-slate-900 dark:text-white">
       
-      {/* ANIMATED SMOKY TEXTURE BACKGROUND */}
-      {/* This uses an SVG radial gradient layered with a subtle noise filter to create a premium "smoky/frosted" texture */}
-      <div 
-        className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none mix-blend-multiply dark:mix-blend-screen" 
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.005' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opactiy='0.5'/%3E%3C/svg%3E")`,
-        }}
-      ></div>
-      <div className="absolute top-0 w-full h-full bg-gradient-to-br from-white via-slate-50/80 to-slate-200/50 dark:from-[#0a0a0a] dark:via-[#111111]/80 dark:to-[#1a1a1a]/50 pointer-events-none z-0 transition-colors duration-300"></div>
+      {/* Subtle overlay for the landing page content area */}
+      <div className="absolute top-0 w-full h-[600px] bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-blue-500/5 pointer-events-none z-0 transition-colors duration-300" />
 
       {/* PROFESSIONAL FLOATING NAVBAR COMPONENT */}
       <GlassNavbar />

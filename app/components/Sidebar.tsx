@@ -67,10 +67,10 @@ export default function Sidebar() {
       {/* MOBILE HEADER */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-[#070b19]/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-4 z-50 transition-colors">
         <Link href="/" className="flex items-center gap-2">
-          <div className="bg-slate-100 dark:bg-white/10 p-1 rounded-xl h-8 w-8">
-            <Image src="/Logo.png" alt="Logo" width={24} height={24} className="object-contain w-full h-full" />
+          <div className="bg-slate-100 dark:bg-white/10 p-1.5 rounded-xl h-9 w-9 flex items-center justify-center">
+            <Image src="/Logo.png" alt="Logo" width={24} height={24} className="object-contain" />
           </div>
-          <span className="text-lg font-bold text-slate-900 dark:text-white">fincortex</span>
+          <span className="text-lg font-bold text-slate-900 dark:text-white">compliance.ai</span>
         </Link>
         <button 
           onClick={() => setIsOpen(!isOpen)}
@@ -85,10 +85,10 @@ export default function Sidebar() {
         <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsOpen(false)}></div>
         <aside className={`absolute top-0 left-0 bottom-0 w-72 bg-white dark:bg-[#111111] p-6 flex flex-col shadow-2xl transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="flex items-center gap-3 mb-8">
-             <div className="bg-slate-100 dark:bg-white/10 p-1.5 rounded-2xl h-10 w-10">
-               <Image src="/Logo.png" alt="Logo" width={28} height={28} />
+             <div className="bg-slate-100 dark:bg-white/10 p-2 rounded-2xl h-12 w-12 flex items-center justify-center">
+               <Image src="/Logo.png" alt="Logo" width={32} height={32} className="object-contain" />
              </div>
-             <h1 className="text-xl font-bold text-slate-900 dark:text-white">fincortex</h1>
+             <h1 className="text-xl font-bold text-slate-900 dark:text-white">compliance.ai</h1>
           </div>
           
           <nav className="space-y-2">
@@ -118,10 +118,10 @@ export default function Sidebar() {
       {/* DESKTOP SIDEBAR */}
       <aside className="w-64 bg-white dark:bg-[#111111] border-r border-slate-200 dark:border-white/10 flex flex-col hidden md:flex transition-colors duration-300 relative z-30">
         <Link href="/" className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <div className="bg-slate-100 dark:bg-white/10 p-1.5 rounded-2xl border border-slate-200 dark:border-white/10 flex items-center justify-center h-10 w-10 transition-colors">
-            <Image src="/Logo.png" alt="Logo" width={28} height={28} className="object-contain" />
+          <div className="bg-slate-100 dark:bg-white/10 p-2 rounded-2xl border border-slate-200 dark:border-white/10 flex items-center justify-center h-12 w-12 transition-colors">
+            <Image src="/Logo.png" alt="Logo" width={32} height={32} className="object-contain" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">fincortex</h1>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">compliance.ai</h1>
         </Link>
 
         <nav className="flex-1 px-4 py-6 space-y-2">

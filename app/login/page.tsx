@@ -74,8 +74,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden transition-colors duration-300 text-slate-900 dark:text-white">
       
-      {/* Background glow effects */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/50 dark:bg-blue-600/20 blur-[100px] dark:blur-[120px] rounded-full pointer-events-none transition-all duration-300"></div>
+      {/* Background glow effects removed to show global asset */}
 
       <div className="w-full max-w-md bg-white/80 dark:bg-white/10 backdrop-blur-2xl border border-white/50 dark:border-white/10 p-10 rounded-[2.5rem] shadow-xl dark:shadow-2xl relative z-10 text-center transition-all duration-300">
         
