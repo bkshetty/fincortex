@@ -70,9 +70,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: "Unauthorized. Please enter a valid secret or log in." }, { status: 401 });
     }
 
-    console.log(`[TaxCron] Running: test=${isTest}, secret=${secret ? 'provided' : 'none'}, auth=${authHeader ? 'provided' : 'none'}`);
-
-    let usersToRemind = [];
+    let usersToRemind: any[] = [];
 
     // If it's a test triggered from the UI, we prioritize the logged-in user
     if (isTest && authHeader) {

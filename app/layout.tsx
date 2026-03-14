@@ -23,39 +23,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Theme-aware CSS variables */}
               <style>{`
-                /* ─── LIGHT MODE: Analogous warm rose/mauve palette ─── */
-                /* Purple → shift warm → rose-pink-mauve (color wheel analogy) */
+                  /* ─── LIGHT MODE: Vibrant Blue/Cyan Analogous Palette ─── */
                 :root {
                   --hyp-scene-bg:    #0a0a1a;
                   --hyp-scene-mid:   #1a1a3a;
                   --hyp-scene-far:   #050510;
 
-                  /* Light mode overrides */
-                  --hyp-outer-0:    #b06090;
-                  --hyp-outer-1:    #c878a8;
-                  --hyp-outer-2:    #d090b8;
-                  --hyp-outer-hi:   #d8a0c0;
+                  /* Light mode overrides: Shifting from Pink to Blue */
+                  --hyp-outer-0:    #1e40af; /* Blue-800 */
+                  --hyp-outer-1:    #2563eb; /* Blue-600 */
+                  --hyp-outer-2:    #3b82f6; /* Blue-500 */
+                  --hyp-outer-hi:   #60a5fa; /* Blue-400 */
 
-                  --hyp-middle-0:   #c070a0;
-                  --hyp-middle-1:   #d888b8;
-                  --hyp-middle-2:   #e0a0c8;
-                  --hyp-middle-hi:  #e8b0d0;
+                  --hyp-middle-0:   #0284c7; /* Sky-600 */
+                  --hyp-middle-1:   #0ea5e9; /* Sky-500 */
+                  --hyp-middle-2:   #38bdf8; /* Sky-400 */
+                  --hyp-middle-hi:  #7dd3fc; /* Sky-300 */
 
-                  --hyp-inner-0:    #c878a8;
-                  --hyp-inner-1:    #e090c0;
-                  --hyp-inner-2:    #eda8d0;
-                  --hyp-inner-hi:   #f0b8d8;
+                  --hyp-inner-0:    #0891b2; /* Cyan-600 */
+                  --hyp-inner-1:    #06b6d4; /* Cyan-500 */
+                  --hyp-inner-2:    #22d3ee; /* Cyan-400 */
+                  --hyp-inner-hi:   #67e8f9; /* Cyan-300 */
 
-                  --hyp-core-0:     #d090b8;
-                  --hyp-core-1:     #e8a8cc;
-                  --hyp-core-hi:    #f5c0dc;
+                  --hyp-core-0:     #0d9488; /* Teal-600 */
+                  --hyp-core-1:     #14b8a6; /* Teal-500 */
+                  --hyp-core-hi:    #e0f2fe; /* Very light blue approach */
 
                   --hyp-center-glow: rgba(255,255,255,0.95);
-                  --hyp-orb-1:       rgba(180,90,160,0.5);
-                  --hyp-orb-2:       rgba(200,120,170,0.4);
+                  --hyp-orb-1:       rgba(30,64,175,0.4);
+                  --hyp-orb-2:       rgba(14,165,233,0.3);
                 }
 
-                /* ─── DARK MODE: Exact original colors from the user ─── */
+                /* ─── DARK MODE: Original Colors ─── */
                 .dark {
                   --hyp-outer-0:    #2d1b69;
                   --hyp-outer-1:    #4a2d8a;
@@ -86,14 +85,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="absolute inset-0" style={{
                 background: 'radial-gradient(ellipse at 50% 50%, var(--hyp-scene-mid,#1a1a3a) 0%, var(--hyp-scene-bg,#0f0f2f) 40%, var(--hyp-scene-far,#050510) 100%)',
               }} />
-              {/* Light mode override for scene base */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#fff0fa] via-[#f5e6ff] to-[#ede0f8] dark:opacity-0 transition-opacity duration-700" />
+              {/* Light mode override for scene base: Cleaner white-blue base */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#f0f9ff] via-[#e0f2fe] to-[#dbeafe] dark:opacity-0 transition-opacity duration-700" />
 
-              {/* Hyperboloid SVG container */}
+              {/* Hyperboloid SVG container (no blur change needed) */}
               <div className="hyp-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-full"
                    style={{filter: 'blur(40px)'}}>
-
-                {/* Outer layer — widest, most blur */}
+                {/* Outer layer */}
                 <svg className="hyp-outer absolute inset-0 w-full h-full"
                      style={{filter: 'blur(60px)', opacity: 0.4}}
                      viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
@@ -173,7 +171,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Center horizontal glow */}
               <div className="hyp-center-pulse absolute top-1/2 left-1/2 w-[30vw] h-[8vh] pointer-events-none"
                    style={{
-                     background: 'radial-gradient(ellipse, var(--hyp-center-glow) 0%, rgba(200,180,255,0.7) 30%, rgba(150,120,255,0.4) 60%, transparent 100%)',
+                     background: 'radial-gradient(ellipse, var(--hyp-center-glow) 0%, rgba(186,230,253,0.7) 30%, rgba(125,211,252,0.4) 60%, transparent 100%)',
                      filter: 'blur(30px)',
                    }} />
 
@@ -194,8 +192,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                      backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`
                    }} />
 
-              {/* Vignette */}
-              <div className="absolute inset-0 pointer-events-none"
+              {/* Vignette - Dark Mode ONLY */}
+              <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-700"
                    style={{background: 'radial-gradient(ellipse at 50% 50%, transparent 0%, transparent 40%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.9) 100%)'}} />
             </div>
 

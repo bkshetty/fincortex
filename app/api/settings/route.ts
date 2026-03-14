@@ -26,6 +26,8 @@ async function getUserEmail(request: Request): Promise<string | null> {
 export async function GET(request: Request) {
   try {
     const email = await getUserEmail(request);
+    console.log("[SETTINGS_GET] User Email:", email);
+    console.log("[SETTINGS_GET] Prisma Keys:", Object.keys(prisma).filter(k => !k.startsWith('_')));
     if (!email) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -33,6 +35,7 @@ export async function GET(request: Request) {
     const prefs = await prisma.userPreference.findUnique({
       where: { user_email: email },
     });
+    console.log("[SETTINGS_GET] Prefs found:", !!prefs);
 
     if (!prefs) {
       // Return defaults if no saved preferences
@@ -51,8 +54,12 @@ export async function GET(request: Request) {
       last_reminder_sent: prefs.last_reminder_sent?.toISOString() || null,
     });
   } catch (error: any) {
-    console.error("[SETTINGS_GET]", error);
-    return NextResponse.json({ message: "Failed to load settings" }, { status: 500 });
+    console.error("[SETTINGS_GET] Error Details:", error);
+    return NextResponse.json({ 
+      message: "Failed to load settings", 
+      error: error.message,
+      stack: error.stack
+    }, { status: 500 });
   }
 }
 
