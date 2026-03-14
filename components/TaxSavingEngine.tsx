@@ -149,9 +149,9 @@ export default function TaxSavingEngine() {
       {/* 2. Action Bar */}
       <div className="flex justify-between items-center px-4">
         <div>
-           <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Per-Invoice Tax Tips</p>
+           <p className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-widest">Per-Invoice Tax Tips</p>
            {totalProcessed > 0 && (
-             <p className="text-[10px] text-slate-500 mt-1 uppercase tracking-wider">
+             <p className="text-[10px] text-slate-900 dark:text-white mt-1 uppercase tracking-wider font-bold">
                Total processed value: ₹{totalProcessed.toLocaleString('en-IN', {maximumFractionDigits: 2})}
              </p>
            )}
@@ -203,7 +203,7 @@ export default function TaxSavingEngine() {
               </div>
 
               {/* Invoice Reference */}
-              <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-gray-500 mb-3 font-semibold">
+              <div className="flex items-center gap-2 text-xs text-slate-900 dark:text-white mb-3 font-bold">
                 <FileText size={14} />
                 <span>{tip.vendor_name}</span>
                 <span className="text-slate-300 dark:text-gray-700">•</span>
@@ -216,7 +216,7 @@ export default function TaxSavingEngine() {
               </h3>
               
               {/* Explanation */}
-              <p className="text-[13px] text-slate-600 dark:text-gray-400 leading-relaxed min-h-[44px]">
+              <p className="text-[13px] text-slate-950 dark:text-white font-bold leading-relaxed min-h-[44px]">
                 {tip.explanation}
               </p>
 
@@ -243,7 +243,7 @@ export default function TaxSavingEngine() {
                       </button>
                       <button 
                         onClick={() => dismiss(key)}
-                        className="flex-1 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-gray-400 py-3.5 rounded-2xl text-sm font-bold hover:bg-slate-50 dark:hover:bg-white/5 transition-all text-center"
+                        className="flex-1 border border-slate-300 dark:border-white/10 text-slate-950 dark:text-white py-3.5 rounded-2xl text-sm font-bold hover:bg-slate-50 dark:hover:bg-white/5 transition-all text-center"
                       >
                           Dismiss
                       </button>
@@ -269,7 +269,7 @@ export default function TaxSavingEngine() {
                 <Briefcase size={64} />
             </div>
             <h3 className="text-2xl font-black text-[#1B254B] dark:text-white mb-3">No tax saving opportunities analyzed yet.</h3>
-            <p className="text-slate-500 dark:text-gray-400 max-w-sm text-center mb-10 font-medium leading-relaxed">
+            <p className="text-slate-900 dark:text-white max-w-sm text-center mb-10 font-bold leading-relaxed">
               Click below to scan your uploaded invoices for GST savings, ITC claims, and compliance tips.
             </p>
             <button 

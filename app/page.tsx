@@ -51,7 +51,7 @@ export default function LandingPage() {
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-2xl mb-12 animate-in slide-in-from-bottom-10 duration-700 delay-300 fill-mode-both font-medium transition-colors duration-300">
+        <p className="text-lg md:text-xl text-slate-900 dark:text-white max-w-2xl mb-12 animate-in slide-in-from-bottom-10 duration-700 delay-300 fill-mode-both font-bold transition-colors duration-300">
           Automate invoice processing, validate GSTINs, and detect fraud in milliseconds. The ultimate autonomous Accounts Payable intake hub for modern finance teams.
         </p>
 
@@ -63,7 +63,7 @@ export default function LandingPage() {
             {user ? "Access Dashboard" : "Start Free Trial"}
             <ArrowRight size={20} />
           </Link>
-          <button className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg text-slate-600 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all border border-slate-200 dark:border-transparent bg-white dark:bg-white/5 shadow-sm dark:shadow-none">
+          <button className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all border border-slate-200 dark:border-transparent bg-white dark:bg-white/5 shadow-sm dark:shadow-none">
             Book a Demo
           </button>
         </div>
@@ -78,7 +78,7 @@ export default function LandingPage() {
               <Activity className="text-blue-600 dark:text-blue-400" size={28} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Real-time Risk Scoring</h3>
-            <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed font-bold transition-colors duration-300">Instantly analyze invoices against millions of ledger records to detect anomalies, duplicate spending, and vendor fraud immediately.</p>
+            <p className="text-slate-900 dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Instantly analyze invoices against millions of ledger records to detect anomalies, duplicate spending, and vendor fraud immediately.</p>
           </div>
 
           <div className="glass-card p-8 rounded-[2.5rem] hover:shadow-2xl dark:hover:border-purple-500/50 hover:border-indigo-200 transition-all group">
@@ -86,7 +86,7 @@ export default function LandingPage() {
               <FileText className="text-indigo-600 dark:text-purple-400" size={28} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Autonomous Extraction</h3>
-            <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed font-bold transition-colors duration-300">Our multi-modal agentic AI reads PDFs, JPGs, and PNGs with 99.8% accuracy—eliminating manual data entry entirely.</p>
+            <p className="text-slate-900 dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Our multi-modal agentic AI reads PDFs, JPGs, and PNGs with 99.8% accuracy—eliminating manual data entry entirely.</p>
           </div>
 
           <div className="glass-card p-8 rounded-[2.5rem] hover:shadow-2xl dark:hover:border-green-500/50 hover:border-emerald-200 transition-all group">
@@ -94,7 +94,7 @@ export default function LandingPage() {
               <Lock className="text-emerald-600 dark:text-green-400" size={28} />
             </div>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Enterprise Security</h3>
-            <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed font-bold transition-colors duration-300">Built on Google Cloud with end-to-end encryption. Granular access controls and immutable audit logs by default.</p>
+            <p className="text-slate-900 dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Built on Google Cloud with end-to-end encryption. Granular access controls and immutable audit logs by default.</p>
           </div>
         </div>
       </section>
@@ -105,9 +105,9 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <Link href="/" className="flex items-center gap-2">
             <Image src="/Logo.png" alt="compliance.ai Logo" width={24} height={24} className="object-contain opacity-70 grayscale dark:invert" />
-            <span className="text-sm font-bold text-slate-500 dark:text-gray-400 tracking-tight transition-colors duration-300">compliance.ai</span>
+            <span className="text-sm font-bold text-slate-800 dark:text-white tracking-tight transition-colors duration-300">compliance.ai</span>
           </Link>
-          <p className="text-xs text-slate-500 dark:text-gray-600 font-medium transition-colors duration-300">© 2026 compliance.ai Technologies. All rights reserved.</p>
+          <p className="text-xs text-slate-800 dark:text-white font-bold transition-colors duration-300">© 2026 compliance.ai Technologies. All rights reserved.</p>
         </div>
       </footer>
     </div>
