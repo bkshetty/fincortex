@@ -399,7 +399,8 @@ export default function UploadPage() {
                   <ul className="space-y-2">
                     {extractedData.fraud_signals.map((sig: any, idx: number) => (
                       <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                        <span className="text-red-500 font-medium min-w-max">Warning</span> {sig.label}: {sig.description}
+                        <span className="text-red-500 font-medium min-w-max">Warning</span> {sig.label}
+                        {sig.description && <span className="opacity-70"> - {sig.description}</span>}
                       </li>
                     ))}
                   </ul>

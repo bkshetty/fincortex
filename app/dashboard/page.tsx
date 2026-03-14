@@ -5,10 +5,13 @@ import DashboardCharts from "@/components/DashboardCharts";
 import RiskBadge from "@/components/RiskBadge";
 import { formatCurrency, formatCurrencyTotals } from "@/lib/formatCurrency";
 import { InvoiceData } from "@/lib/types";
-import { ExternalLink, FileIcon } from "lucide-react";
+import TaxSavingEngine from "@/components/TaxSavingEngine";
+import { ExternalLink, FileIcon, Lightbulb, BarChart3 } from "lucide-react";
 
 export default function DashboardPage() {
   const [invoices, setInvoices] = useState<InvoiceData[]>([]);
+  const [activeTab, setActiveTab] = useState("analytics");
+  const [newRecCount, setNewRecCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
@@ -30,7 +33,17 @@ export default function DashboardPage() {
       }
     };
 
+    const fetchRecCount = async () => {
+      try {
+        const res = await fetch("/api/tax-recommendations");
+        const data = await res.json();
+        const count = data.count || 0;
+        setNewRecCount(count);
+      } catch (e) {}
+    };
+
     void loadInvoices();
+    void fetchRecCount();
   }, []);
 
   const summary = useMemo(() => {
@@ -46,13 +59,11 @@ export default function DashboardPage() {
     try {
       setExporting(true);
       setGstSuccessMessage(null);
-      // Fallback to the known export api route
       const res = await fetch(window.location.origin + "/api/export-csv");
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.message || "Failed to export invoices");
       }
-
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -71,11 +82,8 @@ export default function DashboardPage() {
     try {
       setGstExporting(true);
       setGstSuccessMessage(null);
-      const res = await fetch("/api/gst-upload"); // assuming user will build this or we'll mock it
-      if (!res.ok) {
-        throw new Error("Failed to generate GST upload file. Route not yet implemented.");
-      }
-
+      const res = await fetch("/api/gst-upload");
+      if (!res.ok) throw new Error("Failed to generate GST upload file.");
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -85,23 +93,18 @@ export default function DashboardPage() {
       URL.revokeObjectURL(url);
       setGstSuccessMessage("GST Upload File Generated Successfully");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to generate GST upload file. Make sure the API exists.");
+      setError(err instanceof Error ? err.message : "Failed to generate GST upload file.");
     } finally {
       setGstExporting(false);
     }
   };
 
   const onClearAll = async () => {
-    if (!window.confirm("Delete all saved invoices? This cannot be undone.")) return;
+    if (!window.confirm("Delete all saved invoices?")) return;
     try {
       setClearing(true);
-      setError(null);
-      setGstSuccessMessage(null);
       const res = await fetch("/api/invoices", { method: "DELETE" });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Failed to clear invoices");
-      }
+      if (!res.ok) throw new Error("Failed to clear invoices");
       setInvoices([]);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to clear invoices");
@@ -112,11 +115,44 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 pt-10 sm:pt-4 px-4 sm:px-12 max-w-7xl mx-auto h-full pb-10">
-      <section className="flex flex-col gap-4 rounded-[2rem] border border-white/60 bg-white/85 p-6 shadow-lg shadow-slate-900/5 backdrop-blur sm:flex-row sm:items-end sm:justify-between sm:p-8">
+      {/* Tabs Row */}
+      <div className="flex gap-4 border-b border-slate-200 dark:border-white/10 pb-4 pt-4 overflow-x-auto">
+        <button 
+          onClick={() => setActiveTab("analytics")}
+          className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
+            activeTab === 'analytics' 
+            ? 'bg-slate-900 dark:bg-white text-white dark:text-black shadow-lg shadow-indigo-500/10' 
+            : 'text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-white/5'
+          }`}
+        >
+          <BarChart3 size={16} />
+          Compliance Analytics
+        </button>
+        <button 
+          onClick={() => setActiveTab("tax-savings")}
+          className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all relative flex items-center gap-2 whitespace-nowrap ${
+            activeTab === 'tax-savings' 
+            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20' 
+            : 'text-slate-500 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-white/5'
+          }`}
+        >
+          <Lightbulb size={16} />
+          Tax Savings Engine
+          {newRecCount > 0 && (
+            <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[10px] w-6 h-6 rounded-full flex items-center justify-center border-4 border-slate-50 dark:border-[#070b19] font-black animate-bounce shadow-md">
+              {newRecCount}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {activeTab === 'analytics' ? (
+        <>
+      <section className="flex flex-col gap-4 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/5 p-6 shadow-lg shadow-slate-900/5 dark:shadow-none backdrop-blur sm:flex-row sm:items-end sm:justify-between sm:p-8 transition-colors">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Dashboard</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Compliance analytics at a glance</h1>
-          <p className="mt-3 max-w-2xl text-sm text-slate-600 sm:text-base">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-gray-400">Dashboard</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-4xl transition-colors">Compliance analytics at a glance</h1>
+          <p className="mt-3 max-w-2xl text-sm text-slate-600 dark:text-gray-400 sm:text-base transition-colors">
             Track invoice volume, processed value, GST totals, and risk concentration in one simple dashboard.
           </p>
         </div>
@@ -124,33 +160,33 @@ export default function DashboardPage() {
           <button
             onClick={onExportCsv}
             disabled={exporting || loading}
-            className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting ? "Exporting..." : "Export CSV"}
           </button>
           <button
             onClick={onGenerateGstUpload}
             disabled={gstExporting || loading}
-            className="rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {gstExporting ? "Generating..." : "Generate GST Upload File"}
           </button>
           <button
             onClick={onClearAll}
             disabled={clearing || loading || invoices.length === 0}
-            className="rounded-full border border-rose-200 bg-rose-50 px-5 py-3 text-sm font-semibold text-rose-600 transition hover:bg-rose-100 hover:border-rose-400 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full border border-rose-200 dark:border-rose-500/20 bg-rose-50 dark:bg-rose-500/10 px-5 py-3 text-sm font-semibold text-rose-600 dark:text-rose-400 transition hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:border-rose-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {clearing ? "Clearing..." : "Clear All"}
           </button>
-          <p className="max-w-sm text-xs text-slate-500 sm:text-right">
+          <p className="max-w-sm text-xs text-slate-500 dark:text-gray-500 sm:text-right transition-colors">
             This file follows GST invoice upload structure and can be used to assist in filing returns such as GSTR-1.
           </p>
-          {gstSuccessMessage && <p className="max-w-sm text-xs font-medium text-emerald-700 sm:text-right">{gstSuccessMessage}</p>}
+          {gstSuccessMessage && <p className="max-w-sm text-xs font-medium text-emerald-700 dark:text-emerald-400 sm:text-right">{gstSuccessMessage}</p>}
         </div>
       </section>
 
-      {loading && <p className="rounded-[1.5rem] bg-white/80 p-5 text-sm text-slate-600">Loading dashboard...</p>}
-      {error && <p className="rounded-[1.5rem] border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700">{error}</p>}
+      {loading && <p className="rounded-[1.5rem] bg-white/80 dark:bg-white/5 p-5 text-sm text-slate-600 dark:text-gray-400 transition-colors">Loading dashboard...</p>}
+      {error && <p className="rounded-[1.5rem] border border-rose-200 dark:border-rose-500/20 bg-rose-50 dark:bg-rose-500/10 p-5 text-sm text-rose-700 dark:text-rose-400 transition-colors">{error}</p>}
 
       {!loading && !error && (
         <>
@@ -163,15 +199,15 @@ export default function DashboardPage() {
 
           <DashboardCharts invoices={invoices} />
 
-          <section className="rounded-[2rem] border border-white/60 bg-white/85 p-4 shadow-lg shadow-slate-900/5 backdrop-blur sm:p-6">
+          <section className="rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/5 p-4 shadow-lg shadow-slate-900/5 dark:shadow-none backdrop-blur sm:p-6 transition-colors">
             <div className="mb-4">
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">Invoice Table</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">Processed invoices</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-gray-400">Invoice Table</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white transition-colors">Processed invoices</h2>
             </div>
 
             <div className="overflow-x-auto">
               <table className="min-w-full text-left text-sm">
-                <thead className="text-slate-500">
+                <thead className="text-slate-500 dark:text-gray-400">
                   <tr>
                     <th className="px-4 py-3 font-semibold uppercase tracking-wider text-xs">Vendor</th>
                     <th className="px-4 py-3 font-semibold uppercase tracking-wider text-xs">Invoice Number</th>
@@ -182,16 +218,16 @@ export default function DashboardPage() {
                 </thead>
                 <tbody>
                   {invoices.map((invoice, index) => (
-                    <tr key={invoice.id ?? `${invoice.invoice_number}-${index}`} className="border-t border-slate-100 hover:bg-slate-50/50">
-                      <td className="px-4 py-4 font-semibold text-slate-900">{invoice.vendor_name || "Not detected"}</td>
-                      <td className="px-4 py-4 font-bold text-slate-900">{invoice.invoice_number || "Not detected"}</td>
-                      <td className="px-4 py-4 font-medium text-slate-700">{formatCurrency(invoice.total_amount, invoice.currency)}</td>
+                    <tr key={invoice.id ?? `${invoice.invoice_number}-${index}`} className="border-t border-slate-100 dark:border-white/5 hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors">
+                      <td className="px-4 py-4 font-semibold text-slate-900 dark:text-white transition-colors">{invoice.vendor_name || "Not detected"}</td>
+                      <td className="px-4 py-4 font-bold text-slate-900 dark:text-white transition-colors">{invoice.invoice_number || "Not detected"}</td>
+                      <td className="px-4 py-4 font-medium text-slate-700 dark:text-gray-300 transition-colors">{formatCurrency(invoice.total_amount, invoice.currency)}</td>
                       <td className="px-4 py-4">
                         <RiskBadge score={invoice.risk_score} />
                       </td>
                       <td className="px-4 py-4 text-center">
                         {invoice.image_url ? (
-                          <a href={invoice.image_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-white/10 rounded-lg transition-all" title="View Invoice">
+                          <a href={invoice.image_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-white/10 rounded-lg transition-all" title="View Invoice">
                             <ExternalLink size={18} />
                           </a>
                         ) : (
@@ -204,7 +240,7 @@ export default function DashboardPage() {
                   ))}
                   {invoices.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="px-4 py-10 text-center text-slate-500">
+                      <td colSpan={5} className="px-4 py-10 text-center text-slate-500 dark:text-gray-400 transition-colors">
                         No invoices processed yet. Upload one from the Upload page to start tracking metrics.
                       </td>
                     </tr>
@@ -215,15 +251,19 @@ export default function DashboardPage() {
           </section>
         </>
       )}
+        </>
+      ) : (
+        <TaxSavingEngine />
+      )}
     </div>
   );
 }
 
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
-    <article className="rounded-[2rem] border border-white/60 bg-white/85 p-6 shadow-lg shadow-slate-900/5 backdrop-blur">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{label}</p>
-      <p className="mt-4 text-3xl font-bold tracking-tight text-slate-950">{value}</p>
+    <article className="rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/5 p-6 shadow-lg shadow-slate-900/5 dark:shadow-none backdrop-blur transition-colors">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-gray-400 transition-colors">{label}</p>
+      <p className="mt-4 text-3xl font-bold tracking-tight text-slate-950 dark:text-white transition-colors">{value}</p>
     </article>
   );
 }

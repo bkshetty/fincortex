@@ -25,11 +25,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="absolute inset-0 bg-transparent dark:bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] dark:from-[#150f38] dark:via-[#0c102a] dark:to-[#070b19] opacity-0 dark:opacity-100 transition-opacity duration-500"></div>
 
               {/* Fluid gradient blobs matching the reference */}
-              <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-blue-200/40 dark:bg-cyan-400/30 blur-[120px] dark:blur-[180px] mix-blend-multiply dark:mix-blend-screen animate-fluid-1"></div>
+              <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-blue-200/40 dark:bg-cyan-400/30 blur-[80px] dark:blur-[100px] mix-blend-multiply dark:mix-blend-screen animate-fluid-1"></div>
               
-              <div className="absolute bottom-[-10%] right-[-20%] w-[70vw] h-[70vw] rounded-[100%] bg-cyan-200/40 dark:bg-blue-600/30 blur-[120px] dark:blur-[180px] mix-blend-multiply dark:mix-blend-screen animate-fluid-2"></div>
+              <div className="absolute bottom-[-10%] right-[-20%] w-[70vw] h-[70vw] rounded-[100%] bg-cyan-200/40 dark:bg-blue-600/30 blur-[80px] dark:blur-[100px] mix-blend-multiply dark:mix-blend-screen animate-fluid-2"></div>
               
-              <div className="absolute top-[20%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-indigo-200/40 dark:bg-indigo-600/20 blur-[120px] dark:blur-[180px] mix-blend-multiply dark:mix-blend-screen animate-fluid-3"></div>
+              <div className="absolute top-[20%] right-[10%] w-[50vw] h-[50vw] rounded-full bg-indigo-200/40 dark:bg-indigo-600/20 blur-[80px] dark:blur-[100px] mix-blend-multiply dark:mix-blend-screen animate-fluid-3"></div>
               
               {/* Overlay to reduce noise and blend smoothly */}
               <div className="absolute inset-0 bg-transparent dark:bg-[#070b19]/20 pointer-events-none mix-blend-overlay"></div>

@@ -1,0 +1,10 @@
+[
+  {
+    "id": "clear-data",
+    "text": "Wiping old data to force recalculation"
+  },
+  {
+    "id": "ui-fix",
+    "text": "Removed hardcoded colons and undefined labels in frontend"
+  }
+]

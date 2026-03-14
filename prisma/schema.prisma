@@ -8,13 +8,107 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+model Business {
+  id               String   @id @default(uuid())
+  name             String
+  turnover         Float    @default(0)
+  entity_type      String   // proprietorship, partnership, etc.
+  gst_scheme       String   // regular, composition
+  sector           String
+  created_at       DateTime @default(now())
+  
+  expenses         Expense[]
+  employees        Employee[]
+  assets           Asset[]
+  recommendations  TaxRecommendation[]
+  notifications    CANotification[]
+  invoices         Invoice[]
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  business_id String
+  business    Business @relation(fields: [business_id], references: [id])
+  category    String
+  amount      Float
+  date        DateTime @default(now())
+  created_at  DateTime @default(now())
+}
+
+model Employee {
+  id          String   @id @default(uuid())
+  business_id String
+  business    Business @relation(fields: [business_id], references: [id])
+  name        String?
+  hired_at    DateTime @default(now())
+  salary      Float
+  created_at  DateTime @default(now())
+}
+
+model Asset {
+  id          String   @id @default(uuid())
+  business_id String
+  business    Business @relation(fields: [business_id], references: [id])
+  name        String?
+  category    String   // machinery, equipment, computer, vehicle
+  value       Float
+  purchased_at DateTime @default(now())
+  created_at  DateTime @default(now())
+}
+
+model TaxRule {
+  id               String   @id @default(uuid())
+  rule_code        String   @unique
+  section_name     String
+  description      String
+  condition_type   String
+  condition_value  Json
+  max_benefit_text String
+  category         String
+  created_at       DateTime @default(now())
+  
+  recommendations  TaxRecommendation[]
+}
+
+model TaxRecommendation {
+  id                   String   @id @default(uuid())
+  business_id          String
+  business             Business @relation(fields: [business_id], references: [id])
+  rule_id              String
+  rule                 TaxRule  @relation(fields: [rule_id], references: [id])
+  status               String   @default("new") // new, flagged_to_ca, applied, dismissed
+  estimated_saving_inr Float    @default(0)
+  ai_explanation       String?
+  priority             String   @default("medium") // high, medium, low
+  action_label         String?
+  triggered_by         String?
+  flagged_at           DateTime?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+  
+  @@unique([business_id, rule_id])
+}
+
+model CANotification {
+  id                String   @id @default(uuid())
+  business_id       String
+  business          Business @relation(fields: [business_id], references: [id])
+  recommendation_id String?
+  message           String
+  is_read           Boolean  @default(false)
+  created_at        DateTime @default(now())
+}
+
 model Invoice {
   id                       String   @id @default(uuid())
   created_at               DateTime @default(now())
+  business_id              String?
+  business                 Business? @relation(fields: [business_id], references: [id])
   vendor_name              String
   vendor_gstin             String?
   invoice_number           String
   invoice_date             String
+  payment_due_date         DateTime?
   currency                 String
   currency_symbol          String?
   subtotal                 Float

@@ -42,8 +42,11 @@ const ANOMALY_LOG = [
 ];
 // ----------------------------------
 
+import TaxFlagsPanel from "@/components/CA/TaxFlagsPanel";
+
 export default function CAAuditDashboard() {
   const [showApproveConfirm, setShowApproveConfirm] = useState(false);
+  const [activeTab, setActiveTab] = useState("anomalies");
 
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
@@ -58,6 +61,7 @@ export default function CAAuditDashboard() {
     <div className="p-6 md:p-10 max-w-7xl mx-auto min-h-full flex flex-col transition-colors duration-300">
       
       {/* HEADER & ACTIONS */}
+      {/* ... (existing header) ... */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
@@ -208,7 +212,34 @@ export default function CAAuditDashboard() {
 
       </div>
 
-      {/* ANOMALY DETECTION TABLE */}
+      {/* TAB SWITCHER */}
+      <div className="flex gap-8 mb-6 border-b border-slate-200 dark:border-white/5 pb-1">
+        <button 
+          onClick={() => setActiveTab("anomalies")}
+          className={`pb-3 text-sm font-bold transition-all relative ${
+            activeTab === 'anomalies' 
+            ? 'text-blue-600 dark:text-blue-400' 
+            : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          Ledger Anomalies
+          {activeTab === 'anomalies' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full animate-in fade-in duration-300"></div>}
+        </button>
+        <button 
+          onClick={() => setActiveTab("tax-flags")}
+          className={`pb-3 text-sm font-bold transition-all relative ${
+            activeTab === 'tax-flags' 
+            ? 'text-emerald-600 dark:text-emerald-400' 
+            : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          Tax Saving Strategies
+          {activeTab === 'tax-flags' && <div className="absolute bottom-0 left-0 w-full h-0.5 bg-emerald-600 rounded-full animate-in fade-in duration-300"></div>}
+        </button>
+      </div>
+
+      {activeTab === 'anomalies' ? (
+      /* ANOMALY DETECTION TABLE */
       <div className="bg-white dark:bg-[#111111]/80 backdrop-blur-md rounded-3xl border border-slate-200 dark:border-white/10 shadow-sm transition-colors duration-300 overflow-hidden">
         <div className="p-6 border-b border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div>
@@ -276,8 +307,9 @@ export default function CAAuditDashboard() {
           </table>
         </div>
       </div>
-
-      {/* CONFIRMATION MODAL OVERLAY */}
+      ) : (
+        <TaxFlagsPanel />
+      )}
       {showApproveConfirm && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
            <div className="bg-white dark:bg-[#111] border border-slate-200 dark:border-white/10 w-full max-w-md rounded-3xl p-8 animate-in zoom-in-95 duration-200 relative shadow-2xl">

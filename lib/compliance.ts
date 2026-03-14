@@ -17,16 +17,46 @@ function hasTotalMismatch(invoice: AnalysisParams["invoice"]) {
   return diff > 5 && diff > (invoice.total_amount || 0) * 0.02;
 }
 
-/** Validates Indian GSTIN Format (15 Characters) */
-/** Validates Indian GSTIN Format (15 Characters) */
-function isInvalidGSTIN(gstin?: string) {
-  if (!gstin) return false; // Missing is handled as a warning, not an "invalid format" fraud signal
+/** Validates Indian GSTIN Format (15 Characters) with State Code and PAN verification.
+ *  Returns null if valid, or a specific error message string if invalid. */
+function getGSTINError(gstin?: string): string | null {
+  if (!gstin) return null;
   const clean = gstin.replace(/[^A-Z0-9]/gi, "").toUpperCase();
-  if (clean.length !== 15) return true;
   
-  // Standard GSTIN: 2 digits + 10 alphanumeric (PAN) + 1 digit + 1 char + 1 digit
+  if (clean.length !== 15) {
+    return `GSTIN '${gstin}' is ${clean.length} characters (must be exactly 15)`;
+  }
+  
+  // 1. Verify State Code (First 2 digits 01-38, 97, 99)
+  const stateCodeStr = clean.substring(0, 2);
+  const stateCode = parseInt(stateCodeStr, 10);
+  const validStateCodes = [
+    ...Array.from({ length: 38 }, (_, i) => i + 1), // 01 to 38
+    97, 99
+  ];
+  if (isNaN(stateCode) || !validStateCodes.includes(stateCode)) {
+    return `GSTIN '${gstin}' has invalid state code '${stateCodeStr}' (must be 01-38, 97, or 99)`;
+  }
+
+  // 2. Verify PAN Part (Characters 3 to 12: 5 Alpha, 4 Numeric, 1 Alpha)
+  const panPart = clean.substring(2, 12);
+  const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  if (!panRegex.test(panPart)) {
+    return `GSTIN '${gstin}' has invalid PAN structure (chars 3-12 must be AAAAA9999A)`;
+  }
+
+  // 3. Final structural regex
   const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
-  return !gstRegex.test(clean);
+  if (!gstRegex.test(clean)) {
+    return `GSTIN '${gstin}' has invalid structure (check entity code or checksum digit)`;
+  }
+
+  return null; // Valid
+}
+
+/** Backward-compatible wrapper */
+function isInvalidGSTIN(gstin?: string): boolean {
+  return getGSTINError(gstin) !== null;
 }
 
 /** Detects suspiciously round numbers (e.g., 50000.00) often found in fake bills */
@@ -68,8 +98,11 @@ export function buildFraudSignals(params: AnalysisParams): FraudSignal[] {
   }
 
   // 2. GSTIN Structural Integrity (Only if value exists)
-  if (invoice.vendor_gstin && isInvalidGSTIN(invoice.vendor_gstin)) {
-    signals.push({ label: "Invalid GSTIN format detected" });
+  console.log(`[compliance] Checking GSTIN: "${invoice.vendor_gstin}"`);
+  const gstinError = invoice.vendor_gstin ? getGSTINError(invoice.vendor_gstin) : null;
+  console.log(`[compliance] GSTIN Error result: ${gstinError}`);
+  if (gstinError) {
+    signals.push({ label: gstinError });
   }
 
   // 3. Tax Rate Threshold
@@ -155,10 +188,11 @@ export function buildComplianceAdvisor(params: AnalysisParams): ComplianceAdviso
   }
 
   if (invoice.vendor_gstin) {
-    if (!isInvalidGSTIN(invoice.vendor_gstin)) {
+    const gstinErr = getGSTINError(invoice.vendor_gstin);
+    if (!gstinErr) {
       checks.push("GSTIN format is valid");
     } else {
-      warnings.push("Vendor GSTIN format is non-standard");
+      warnings.push(gstinErr);
     }
   } else {
     warnings.push("Vendor GSTIN missing (Required for tax filing)");

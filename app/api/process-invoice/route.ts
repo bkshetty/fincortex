@@ -70,8 +70,8 @@ Rules:
 - Extract tax rates only from explicit percentage patterns such as "@9%", "9%", "CGST 9%", "SGST 9%".
 - Ignore numeric values greater than 100 when extracting tax rates.
 - Tax breakdown fields cgst_rate, sgst_rate, and igst_rate must store rates, not tax amounts.
-- Set mixed_tax_rates_detected to true only when there is more than one unique extracted rate.
-- If tax cannot be validated, set tax_mismatch to false and tax_mismatch_percent to 0.
+- Identify vendor_gstin from labels like "GSTIN", "GST No", "GST Registration Number". 
+- Valid GSTINs are 15 characters. If you see a string like "12345" or random characters, set vendor_gstin to "INVALID".
 - If the uploaded image is clearly NOT an invoice (e.g., it is a logo, a person, or a random photo), set vendor_name to "UNKNOWN", total_amount to 0, and vendor_gstin to "NOT FOUND".
 - Return empty strings for missing text values.`;
 
