@@ -68,7 +68,7 @@ export default function Sidebar() {
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white/80 dark:bg-[#070b19]/80 backdrop-blur-md border-b border-slate-200 dark:border-white/10 flex items-center justify-between px-4 z-50 transition-colors">
         <Link href="/" className="flex items-center gap-2">
           <div className="bg-slate-100 dark:bg-white/10 p-1.5 rounded-xl h-9 w-9 flex items-center justify-center">
-            <Image src="/Logo.png" alt="Logo" width={24} height={24} className="object-contain" />
+            <Image src="/logo.png" alt="Logo" width={24} height={24} className="object-contain" />
           </div>
           <span className="text-lg font-bold text-black dark:text-white">compliance.ai</span>
         </Link>
@@ -86,7 +86,7 @@ export default function Sidebar() {
         <aside className={`absolute top-0 left-0 bottom-0 w-72 p-6 flex flex-col shadow-2xl transition-transform duration-300 glass-panel border-r-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="flex items-center gap-3 mb-8">
              <div className="bg-slate-100/50 dark:bg-white/10 p-2 rounded-2xl h-12 w-12 flex items-center justify-center border border-white/20">
-               <Image src="/Logo.png" alt="Logo" width={32} height={32} className="object-contain" />
+               <Image src="/logo.png" alt="Logo" width={32} height={32} className="object-contain" />
              </div>
              <h1 className="text-xl font-bold text-black dark:text-white">compliance.ai</h1>
           </div>
@@ -119,7 +119,7 @@ export default function Sidebar() {
       <aside className="w-64 glass-panel border-r-0 flex flex-col hidden md:flex transition-colors duration-300 relative z-30 m-4 rounded-3xl shadow-2xl">
         <Link href="/" className="p-6 flex items-center gap-3 hover:opacity-80 transition-opacity">
           <div className="bg-slate-100/50 dark:bg-white/10 p-2 rounded-2xl border border-white/20 flex items-center justify-center h-12 w-12 transition-colors">
-            <Image src="/Logo.png" alt="Logo" width={32} height={32} className="object-contain" />
+            <Image src="/logo.png" alt="Logo" width={32} height={32} className="object-contain" />
           </div>
           <h1 className="text-xl font-bold tracking-tight text-black dark:text-white">compliance.ai</h1>
         </Link>

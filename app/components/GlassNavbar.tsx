@@ -32,7 +32,7 @@ export default function GlassNavbar() {
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl mx-auto px-6 py-4 flex items-center justify-between bg-white/40 dark:bg-white/10 backdrop-blur-md border border-white/50 dark:border-white/20 rounded-full z-50 shadow-lg shadow-black/5 transition-colors duration-300">
       <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
         <div className="bg-white/80 dark:bg-white/10 p-2 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-white/5 flex items-center justify-center h-12 w-12 transition-all">
-          <Image src="/Logo.png" alt="compliance.ai Logo" width={32} height={32} className="object-contain" />
+          <Image src="/logo.png" alt="compliance.ai Logo" width={32} height={32} className="object-contain" />
         </div>
         <span className="text-xl font-extrabold tracking-tight text-black dark:text-white">compliance.ai</span>
       </Link>

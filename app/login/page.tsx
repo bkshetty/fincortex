@@ -80,7 +80,7 @@ export default function LoginPage() {
         
         <Link href="/" className="inline-block">
           <div className="bg-slate-50 dark:bg-white/10 w-16 h-16 rounded-3xl mx-auto flex items-center justify-center mb-6 border border-slate-200 dark:border-white/5 p-2 shadow-sm dark:shadow-lg transition-colors duration-300 hover:scale-105 transition-transform">
-            <Image src="/Logo.png" alt="compliance.ai Logo" width={48} height={48} className="object-contain w-full h-full" />
+            <Image src="/logo.png" alt="compliance.ai Logo" width={48} height={48} className="object-contain w-full h-full" />
           </div>
         </Link>
         <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-2 transition-colors duration-300">compliance.ai</h1>
