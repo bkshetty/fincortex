@@ -237,9 +237,9 @@ export default function UploadPage() {
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto bg-white ${isDragActive ? 'border-indigo-500 bg-indigo-50/50 scale-[1.02]' : 'border-slate-200 dark:border-white/10 dark:bg-[#111111] hover:border-indigo-300 dark:hover:border-indigo-700'}`}
-              style={{ boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.03)' }}
+              className={`border-2 border-dashed rounded-[2rem] p-16 flex flex-col items-center justify-center transition-all group relative max-w-2xl mx-auto glass-card ${isDragActive ? 'border-indigo-500 bg-indigo-50/20 scale-[1.02]' : 'border-slate-200/50 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-700'}`}
             >
+
               <input
                 type="file"
                 accept=".pdf,.jpg,.png,.jpeg"
@@ -288,7 +288,7 @@ export default function UploadPage() {
           {/* Analysis Result Card (The UI to build exactly) */}
           <div className="w-full flex flex-col gap-6">
             
-            <div className={`bg-white dark:bg-[#111111] rounded-[1.5rem] p-8 shadow-[0px_4px_24px_rgba(0,0,0,0.02)] border transition-all ${extractedData.isDuplicate ? 'border-red-500 ring-4 ring-red-500/10' : 'border-[#E9EDF4] dark:border-white/5'}`}>
+            <div className={`glass-panel p-8 shadow-2xl transition-all ${extractedData.isDuplicate ? 'border-red-500 ring-4 ring-red-500/10' : ''}`}>
               <div className="flex justify-between items-center mb-8">
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 dark:text-gray-500 tracking-wider uppercase mb-1">Analysis Result Card</h4>
@@ -309,57 +309,57 @@ export default function UploadPage() {
 
               {/* Grid 2x4 Data Points */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Vendor Name</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Vendor Name</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase truncate">{extractedData.vendorName}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Vendor GSTIN</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Vendor GSTIN</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase">{extractedData.gstin || "NOT FOUND"}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Invoice Number</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Invoice Number</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase">{extractedData.invoiceNumber}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Currency</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Currency</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase">{extractedData.currency}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Subtotal</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Subtotal</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white">{formatCurrency(extractedData.subtotal, extractedData.currency)}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tax Amount</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Tax Amount</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white">{formatCurrency(extractedData.taxAmount, extractedData.currency)}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Amount</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Total Amount</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white">{formatCurrency(extractedData.amount, extractedData.currency)}</span>
                 </div>
-                <div className="border border-[#E9EDF4] dark:border-white/10 rounded-2xl p-4 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Effective Tax Rate</span>
+                <div className="glass-card p-4 flex flex-col gap-1">
+                  <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Effective Tax Rate</span>
                   <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.effectiveTaxRate.toFixed(2)}%</span>
                 </div>
               </div>
 
               {/* Tax Breakdown Grid */}
-              <div className="bg-[#F8F9FB] dark:bg-white/[0.02] border border-[#E9EDF4] dark:border-white/5 rounded-2xl p-6 mb-8">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Tax Breakdown</h4>
+              <div className="glass-card p-6 mb-8 border-white/20">
+                <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4">Tax Breakdown</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-white dark:bg-[#111111] border border-[#E9EDF4] dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
+                  <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CGST</span>
                     <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.cgst_rate.toFixed(2)}%</span>
                   </div>
-                  <div className="bg-white dark:bg-[#111111] border border-[#E9EDF4] dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
+                  <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">SGST</span>
                      <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.sgst_rate.toFixed(2)}%</span>
                   </div>
-                  <div className="bg-white dark:bg-[#111111] border border-[#E9EDF4] dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
+                  <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">IGST</span>
                      <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.igst_rate.toFixed(2)}%</span>
                   </div>
-                  <div className="bg-white dark:bg-[#111111] border border-[#E9EDF4] dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
+                  <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CESS</span>
                      <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.cess_rate.toFixed(2)}%</span>
                   </div>
@@ -367,39 +367,39 @@ export default function UploadPage() {
               </div>
 
               {/* Compliance Advisor */}
-              <div className="bg-[#F8F9FB] dark:bg-white/[0.02] border border-[#E9EDF4] dark:border-white/5 rounded-2xl p-6 mb-8 flex flex-col md:flex-row gap-6">
+              <div className="glass-card p-6 mb-8 flex flex-col md:flex-row gap-6 border-white/20">
                 <div className="flex-1">
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Compliance Advisor</h4>
+                  <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Compliance Advisor</h4>
                   <ul className="space-y-2">
                     {extractedData.compliance_advisor?.checks?.map((check: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                        <span className="text-[#05A660] font-medium min-w-max">OK</span> {check}
+                        <span className="text-[#05A660] font-bold min-w-max">OK</span> {check}
                       </li>
                     ))}
                     {extractedData.compliance_advisor?.warnings?.map((warning: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                        <span className="text-[#FF8A00] font-medium min-w-max">Warning</span> {warning}
+                        <span className="text-[#FF8A00] font-bold min-w-max">Warning</span> {warning}
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className="w-px bg-[#E9EDF4] dark:bg-white/10 hidden md:block"></div>
+                <div className="w-px bg-slate-200/50 dark:bg-white/10 hidden md:block"></div>
                 <div className="flex-1">
-                   <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Recommendation</h4>
-                   <p className="text-sm text-slate-600 dark:text-slate-300">
+                   <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Recommendation</h4>
+                   <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">
                      SYSTEM ALERT: Discrepancies found. Review fraud signals and AI-drafted vendor email before proceeding.
                    </p>
                 </div>
               </div>
 
               {/* Fraud Signals */}
-              <div className="bg-[#F8F9FB] dark:bg-white/[0.02] border border-[#E9EDF4] dark:border-white/5 rounded-2xl p-6 mb-8">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Fraud Signals</h4>
+              <div className="glass-card p-6 mb-8 border-white/20">
+                <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Fraud Signals</h4>
                 {extractedData.fraud_signals && extractedData.fraud_signals.length > 0 ? (
                   <ul className="space-y-2">
                     {extractedData.fraud_signals.map((sig: any, idx: number) => (
                       <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                        <span className="text-red-500 font-medium min-w-max">Warning</span> {sig.label}
+                        <span className="text-red-500 font-bold min-w-max">Warning</span> {sig.label}
                         {sig.description && <span className="opacity-70"> - {sig.description}</span>}
                       </li>
                     ))}
@@ -411,17 +411,17 @@ export default function UploadPage() {
 
               {/* Autonomous Vendor Resolution Email Draft */}
               {extractedData.draft_vendor_email && (
-                 <div className="border border-[#E2E8F0] dark:border-[#2D3748] rounded-2xl overflow-hidden shadow-sm bg-white dark:bg-[#111111]">
-                   <div className="bg-[#EDF2F7] dark:bg-[#1A202C] px-6 py-4 border-b border-[#E2E8F0] dark:border-[#2D3748] flex justify-between items-center">
+                 <div className="glass-card overflow-hidden shadow-2xl border-white/30">
+                   <div className="bg-slate-100/50 dark:bg-white/5 px-6 py-4 border-b border-white/20 flex justify-between items-center">
                      <div>
                        <h3 className="text-sm font-bold text-[#2A4365] dark:text-[#90CDF4] uppercase tracking-wider mb-1">Autonomous Vendor Resolution</h3>
                        <p className="text-xs text-slate-500 dark:text-slate-400">Agentic AI generated this draft to resolve compliance issues.</p>
                      </div>
-                     <span className="bg-[#EBF8FF] text-[#3182CE] text-[10px] font-bold px-3 py-1 rounded-full border border-[#BEE3F8]">AGENT DRAFT</span>
+                     <span className="bg-blue-50/50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold px-3 py-1 rounded-full border border-blue-100/50 dark:border-blue-500/20">AGENT DRAFT</span>
                    </div>
                    <div className="p-6">
-                     <div className="bg-white dark:bg-[#111111] border border-[#E2E8F0] dark:border-[#2D3748] rounded-xl p-5 shadow-inner flex flex-col gap-3">
-                       <p className="text-sm font-bold text-slate-900 dark:text-white border-b border-[#E2E8F0] dark:border-[#2D3748] pb-3">
+                     <div className="bg-white/40 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-5 shadow-inner flex flex-col gap-3">
+                       <p className="text-sm font-bold text-slate-900 dark:text-white border-b border-white/20 pb-3">
                          Subject: {extractedData.draft_vendor_email.subject}
                        </p>
                        <pre className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap font-sans leading-relaxed">
@@ -433,6 +433,7 @@ export default function UploadPage() {
               )}
 
             </div>
+
             
             {/* Navigation / Actions below card */}
             <div className="flex flex-col sm:flex-row gap-4 p-4 border border-slate-200 dark:border-white/10 rounded-2xl bg-white dark:bg-[#111111]">

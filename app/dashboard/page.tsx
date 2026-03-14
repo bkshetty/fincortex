@@ -148,11 +148,11 @@ export default function DashboardPage() {
 
       {activeTab === 'analytics' ? (
         <>
-      <section className="flex flex-col gap-4 rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/5 p-6 shadow-lg shadow-slate-900/5 dark:shadow-none backdrop-blur sm:flex-row sm:items-end sm:justify-between sm:p-8 transition-colors">
+      <section className="flex flex-col gap-4 rounded-[2rem] glass-panel p-6 sm:flex-row sm:items-end sm:justify-between sm:p-8 transition-colors shadow-2xl">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-gray-400">Dashboard</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-4xl transition-colors">Compliance analytics at a glance</h1>
-          <p className="mt-3 max-w-2xl text-sm text-slate-600 dark:text-gray-400 sm:text-base transition-colors">
+          <p className="mt-3 max-w-2xl text-sm text-slate-600 dark:text-gray-400 sm:text-base transition-colors font-medium">
             Track invoice volume, processed value, GST totals, and risk concentration in one simple dashboard.
           </p>
         </div>
@@ -160,33 +160,33 @@ export default function DashboardPage() {
           <button
             onClick={onExportCsv}
             disabled={exporting || loading}
-            className="rounded-full border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-300 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting ? "Exporting..." : "Export CSV"}
           </button>
           <button
             onClick={onGenerateGstUpload}
             disabled={gstExporting || loading}
-            className="rounded-full border border-slate-300 dark:border-white/10 bg-white dark:bg-white/5 px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-300 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {gstExporting ? "Generating..." : "Generate GST Upload File"}
           </button>
           <button
             onClick={onClearAll}
             disabled={clearing || loading || invoices.length === 0}
-            className="rounded-full border border-rose-200 dark:border-rose-500/20 bg-rose-50 dark:bg-rose-500/10 px-5 py-3 text-sm font-semibold text-rose-600 dark:text-rose-400 transition hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:border-rose-400 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full border border-rose-200 dark:border-rose-500/20 bg-rose-50/50 dark:bg-rose-500/10 backdrop-blur-md px-5 py-3 text-sm font-semibold text-rose-600 dark:text-rose-400 transition hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:border-rose-400 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {clearing ? "Clearing..." : "Clear All"}
           </button>
-          <p className="max-w-sm text-xs text-slate-500 dark:text-gray-500 sm:text-right transition-colors">
+          <p className="max-w-sm text-xs text-slate-500 dark:text-gray-500 sm:text-right transition-colors font-medium">
             This file follows GST invoice upload structure and can be used to assist in filing returns such as GSTR-1.
           </p>
           {gstSuccessMessage && <p className="max-w-sm text-xs font-medium text-emerald-700 dark:text-emerald-400 sm:text-right">{gstSuccessMessage}</p>}
         </div>
       </section>
 
-      {loading && <p className="rounded-[1.5rem] bg-white/80 dark:bg-white/5 p-5 text-sm text-slate-600 dark:text-gray-400 transition-colors">Loading dashboard...</p>}
-      {error && <p className="rounded-[1.5rem] border border-rose-200 dark:border-rose-500/20 bg-rose-50 dark:bg-rose-500/10 p-5 text-sm text-rose-700 dark:text-rose-400 transition-colors">{error}</p>}
+      {loading && <p className="rounded-[1.5rem] glass-card p-5 text-sm text-slate-600 dark:text-gray-400 transition-colors">Loading dashboard...</p>}
+      {error && <p className="rounded-[1.5rem] border border-rose-200 dark:border-rose-500/20 bg-rose-50/50 dark:bg-rose-500/10 backdrop-blur-md p-5 text-sm text-rose-700 dark:text-rose-400 transition-colors">{error}</p>}
 
       {!loading && !error && (
         <>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
 
           <DashboardCharts invoices={invoices} />
 
-          <section className="rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/5 p-4 shadow-lg shadow-slate-900/5 dark:shadow-none backdrop-blur sm:p-6 transition-colors">
+          <section className="rounded-[2rem] glass-panel p-4 shadow-2xl sm:p-6 transition-colors">
             <div className="mb-4">
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-gray-400">Invoice Table</p>
               <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white transition-colors">Processed invoices</h2>
