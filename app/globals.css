@@ -48,49 +48,42 @@ html {
 }
 
 /* ============================================
-   HYPERBOLOID FLOW ANIMATIONS
+   HYPERBOLOID FLOW v2 ANIMATIONS
    ============================================ */
 
-@keyframes outerFlow {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
-  33%       { transform: scale(1.05) rotate(1deg); opacity: 0.6; }
-  66%       { transform: scale(0.98) rotate(-1deg); opacity: 0.55; }
+@keyframes breathe1 {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.4; }
+  50%       { transform: scale(1.05) rotate(0.5deg); opacity: 0.5; }
 }
 
-@keyframes middleFlow {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
-  33%       { transform: scale(1.03) rotate(-0.5deg); opacity: 0.8; }
-  66%       { transform: scale(1.01) rotate(0.5deg); opacity: 0.75; }
+@keyframes breathe2 {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+  50%       { transform: scale(1.03) rotate(-0.3deg); opacity: 0.7; }
 }
 
-@keyframes innerFlow {
-  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
-  50%       { transform: scale(1.02) rotate(0.3deg); opacity: 1; }
+@keyframes breathe3 {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+  50%       { transform: scale(1.02) rotate(0.2deg); opacity: 0.9; }
 }
 
-@keyframes coreFlow {
+@keyframes breathe4 {
   0%, 100% { transform: scale(1); opacity: 1; }
   50%       { transform: scale(1.05); opacity: 0.95; }
 }
 
-@keyframes orbPulse {
+@keyframes hypPulse {
   0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
-  50%       { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  50%       { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
 }
 
-@keyframes drift1 {
+@keyframes hypDrift1 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(50px, 30px) scale(1.1); }
+  50%       { transform: translate(30px, 20px) scale(1.1); }
 }
 
-@keyframes drift2 {
+@keyframes hypDrift2 {
   0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(-40px, -50px) scale(1.15); }
-}
-
-@keyframes drift3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(30px, -30px) scale(1.05); }
+  50%       { transform: translate(-20px, -30px) scale(1.15); }
 }
 
 @keyframes grainMove {
@@ -106,47 +99,42 @@ html {
   90%  { transform: translate(-10%, 10%); }
 }
 
-.svg-outer {
-  animation: outerFlow 12s ease-in-out infinite;
+.hyp-outer {
+  animation: breathe1 8s ease-in-out infinite;
   will-change: transform;
 }
 
-.svg-middle {
-  animation: middleFlow 10s ease-in-out infinite reverse;
+.hyp-middle {
+  animation: breathe2 6s ease-in-out infinite reverse;
   will-change: transform;
 }
 
-.svg-inner {
-  animation: innerFlow 8s ease-in-out infinite;
+.hyp-inner {
+  animation: breathe3 5s ease-in-out infinite;
   will-change: transform;
 }
 
-.svg-core {
-  animation: coreFlow 6s ease-in-out infinite reverse;
+.hyp-core {
+  animation: breathe4 4s ease-in-out infinite reverse;
   will-change: transform;
 }
 
-.center-orb-anim {
-  animation: orbPulse 4s ease-in-out infinite;
+.hyp-center-pulse {
+  animation: hypPulse 3s ease-in-out infinite;
   will-change: transform, opacity;
 }
 
-.orb-drift-1 {
-  animation: drift1 20s ease-in-out infinite;
+.hyp-drift-1 {
+  animation: hypDrift1 15s ease-in-out infinite;
   will-change: transform;
 }
 
-.orb-drift-2 {
-  animation: drift2 25s ease-in-out infinite;
+.hyp-drift-2 {
+  animation: hypDrift2 18s ease-in-out infinite;
   will-change: transform;
 }
 
-.orb-drift-3 {
-  animation: drift3 18s ease-in-out infinite;
-  will-change: transform;
-}
-
-.grain-anim {
+.hyp-grain {
   animation: grainMove 0.5s steps(10) infinite;
   will-change: transform;
 }
