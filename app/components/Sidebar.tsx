@@ -47,15 +47,15 @@ export default function Sidebar() {
 
   const NavLinks = () => (
     <>
-      <Link href="/upload" className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${pathname === '/upload' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>
+      <Link href="/upload" className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${pathname === '/upload' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-black/60 dark:text-white/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>
         <Search size={20} />
         <span className="font-medium">Upload & Analyze</span>
       </Link>
-      <Link href="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${pathname === '/dashboard' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>
+      <Link href="/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${pathname === '/dashboard' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-black/60 dark:text-white/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>
         <LayoutDashboard size={20} />
         <span className="font-medium">Dashboard</span>
       </Link>
-      <Link href="/dashboard/settings" className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${pathname === '/dashboard/settings' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>
+      <Link href="/dashboard/settings" className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all ${pathname === '/dashboard/settings' ? 'bg-slate-100 dark:bg-white/10 text-blue-600 dark:text-white font-semibold' : 'text-black/60 dark:text-white/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}`}>
         <Settings size={20} />
         <span className="font-medium">Settings</span>
       </Link>
@@ -70,11 +70,11 @@ export default function Sidebar() {
           <div className="bg-slate-100 dark:bg-white/10 p-1.5 rounded-xl h-9 w-9 flex items-center justify-center">
             <Image src="/Logo.png" alt="Logo" width={24} height={24} className="object-contain" />
           </div>
-          <span className="text-lg font-bold text-slate-900 dark:text-white">compliance.ai</span>
+          <span className="text-lg font-bold text-black dark:text-white">compliance.ai</span>
         </Link>
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 text-slate-600 dark:text-gray-400 hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-all"
+          className="p-2 text-black/60 dark:text-white/60 hover:bg-slate-100 dark:hover:bg-white/10 rounded-xl transition-all"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -88,7 +88,7 @@ export default function Sidebar() {
              <div className="bg-slate-100/50 dark:bg-white/10 p-2 rounded-2xl h-12 w-12 flex items-center justify-center border border-white/20">
                <Image src="/Logo.png" alt="Logo" width={32} height={32} className="object-contain" />
              </div>
-             <h1 className="text-xl font-bold text-slate-900 dark:text-white">compliance.ai</h1>
+             <h1 className="text-xl font-bold text-black dark:text-white">compliance.ai</h1>
           </div>
           
           <nav className="space-y-2">
@@ -121,7 +121,7 @@ export default function Sidebar() {
           <div className="bg-slate-100/50 dark:bg-white/10 p-2 rounded-2xl border border-white/20 flex items-center justify-center h-12 w-12 transition-colors">
             <Image src="/Logo.png" alt="Logo" width={32} height={32} className="object-contain" />
           </div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">compliance.ai</h1>
+          <h1 className="text-xl font-bold tracking-tight text-black dark:text-white">compliance.ai</h1>
         </Link>
 
         <nav className="flex-1 px-4 py-6 space-y-2">
@@ -138,7 +138,7 @@ export default function Sidebar() {
               {userEmail ? userEmail.charAt(0).toUpperCase() : "U"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate text-slate-900 dark:text-white">{userEmail || "Loading..."}</p>
+              <p className="text-sm font-semibold truncate text-black dark:text-white">{userEmail || "Loading..."}</p>
               <p className="text-xs text-blue-600 dark:text-blue-400 font-bold">Enterprise Tier</p>
             </div>
           </div>

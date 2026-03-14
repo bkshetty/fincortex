@@ -119,7 +119,7 @@ export default function DashboardPage() {
           className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
             activeTab === 'analytics' 
             ? 'bg-slate-900 dark:bg-white text-white dark:text-black shadow-lg shadow-indigo-500/10' 
-            : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+            : 'text-black dark:text-white hover:bg-slate-100 dark:hover:bg-white/5'
           }`}
         >
           <BarChart3 size={16} />
@@ -130,7 +130,7 @@ export default function DashboardPage() {
           className={`px-6 py-2.5 rounded-2xl text-sm font-bold transition-all relative flex items-center gap-2 whitespace-nowrap ${
             activeTab === 'tax-savings' 
             ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/20' 
-            : 'text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+            : 'text-black dark:text-white hover:bg-slate-100 dark:hover:bg-white/5'
           }`}
         >
           <Lightbulb size={16} />
@@ -142,9 +142,9 @@ export default function DashboardPage() {
         <>
       <section className="flex flex-col gap-4 rounded-[2rem] glass-panel p-6 sm:flex-row sm:items-end sm:justify-between sm:p-8 transition-colors shadow-2xl">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-900 dark:text-white">Dashboard</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-4xl transition-colors">Compliance analytics at a glance</h1>
-          <p className="mt-3 max-w-2xl text-sm text-slate-900 dark:text-white sm:text-base transition-colors font-medium">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-black dark:text-white">Dashboard</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-black dark:text-white sm:text-4xl transition-colors">Compliance analytics at a glance</h1>
+          <p className="mt-3 max-w-2xl text-sm text-black dark:text-white sm:text-base transition-colors font-medium">
             Track invoice volume, processed value, GST totals, and risk concentration in one simple dashboard.
           </p>
         </div>
@@ -152,14 +152,14 @@ export default function DashboardPage() {
           <button
             onClick={onExportCsv}
             disabled={exporting || loading}
-            className="rounded-full border border-slate-300 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-300 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md px-5 py-3 text-sm font-semibold text-black dark:text-white/80 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {exporting ? "Exporting..." : "Export CSV"}
           </button>
           <button
             onClick={onGenerateGstUpload}
             disabled={gstExporting || loading}
-            className="rounded-full border border-slate-300 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md px-5 py-3 text-sm font-semibold text-slate-700 dark:text-gray-300 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-300 dark:border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-md px-5 py-3 text-sm font-semibold text-black dark:text-white/80 transition hover:border-slate-400 dark:hover:border-white/20 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {gstExporting ? "Generating..." : "Generate GST Upload File"}
           </button>
@@ -170,14 +170,14 @@ export default function DashboardPage() {
           >
             {clearing ? "Clearing..." : "Clear All"}
           </button>
-          <p className="max-w-sm text-xs text-slate-900 dark:text-white sm:text-right transition-colors font-medium">
+          <p className="max-w-sm text-xs text-black dark:text-white sm:text-right transition-colors font-medium">
             This file follows GST invoice upload structure and can be used to assist in filing returns such as GSTR-1.
           </p>
           {gstSuccessMessage && <p className="max-w-sm text-xs font-medium text-emerald-700 dark:text-emerald-400 sm:text-right">{gstSuccessMessage}</p>}
         </div>
       </section>
 
-      {loading && <p className="rounded-[1.5rem] glass-card p-5 text-sm text-slate-900 dark:text-white transition-colors">Loading dashboard...</p>}
+      {loading && <p className="rounded-[1.5rem] glass-card p-5 text-sm text-black dark:text-white transition-colors">Loading dashboard...</p>}
       {error && <p className="rounded-[1.5rem] border border-rose-200 dark:border-rose-500/20 bg-rose-50/50 dark:bg-rose-500/10 backdrop-blur-md p-5 text-sm text-rose-700 dark:text-rose-400 transition-colors">{error}</p>}
 
       {!loading && !error && (
@@ -193,13 +193,13 @@ export default function DashboardPage() {
 
           <section className="rounded-[2rem] glass-panel p-4 shadow-2xl sm:p-6 transition-colors">
             <div className="mb-4">
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-900 dark:text-white">Invoice Table</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white transition-colors">Processed invoices</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-black dark:text-white">Invoice Table</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-black dark:text-white transition-colors">Processed invoices</h2>
             </div>
 
             <div className="overflow-x-auto">
               <table className="min-w-full text-left text-sm">
-                <thead className="text-slate-900 dark:text-white">
+                <thead className="text-black dark:text-white">
                   <tr>
                     <th className="px-4 py-3 font-semibold uppercase tracking-wider text-xs">Vendor</th>
                     <th className="px-4 py-3 font-semibold uppercase tracking-wider text-xs">Invoice Number</th>
@@ -211,9 +211,9 @@ export default function DashboardPage() {
                 <tbody>
                   {invoices.map((invoice, index) => (
                     <tr key={invoice.id ?? `${invoice.invoice_number}-${index}`} className="border-t border-slate-100 dark:border-white/5 hover:bg-slate-50/50 dark:hover:bg-white/[0.02] transition-colors">
-                      <td className="px-4 py-4 font-semibold text-slate-900 dark:text-white transition-colors">{invoice.vendor_name || "Not detected"}</td>
-                      <td className="px-4 py-4 font-bold text-slate-900 dark:text-white transition-colors">{invoice.invoice_number || "Not detected"}</td>
-                      <td className="px-4 py-4 font-medium text-slate-700 dark:text-gray-300 transition-colors">{formatCurrency(invoice.total_amount, invoice.currency)}</td>
+                      <td className="px-4 py-4 font-semibold text-black dark:text-white transition-colors">{invoice.vendor_name || "Not detected"}</td>
+                      <td className="px-4 py-4 font-bold text-black dark:text-white transition-colors">{invoice.invoice_number || "Not detected"}</td>
+                      <td className="px-4 py-4 font-medium text-black dark:text-white/80 transition-colors">{formatCurrency(invoice.total_amount, invoice.currency)}</td>
                       <td className="px-4 py-4">
                         <RiskBadge score={invoice.risk_score} />
                       </td>
@@ -232,7 +232,7 @@ export default function DashboardPage() {
                   ))}
                   {invoices.length === 0 && (
                     <tr>
-                      <td colSpan={5} className="px-4 py-10 text-center text-slate-900 dark:text-white transition-colors font-medium">
+                      <td colSpan={5} className="px-4 py-10 text-center text-black dark:text-white transition-colors font-medium">
                         No invoices processed yet. Upload one from the Upload page to start tracking metrics.
                       </td>
                     </tr>
@@ -254,8 +254,8 @@ export default function DashboardPage() {
 function SummaryCard({ label, value }: { label: string; value: string }) {
   return (
     <article className="rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/85 dark:bg-white/5 p-6 shadow-lg shadow-slate-900/5 dark:shadow-none backdrop-blur transition-colors">
-      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-900 dark:text-white transition-colors">{label}</p>
-      <p className="mt-4 text-3xl font-bold tracking-tight text-slate-950 dark:text-white transition-colors">{value}</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-black dark:text-white transition-colors">{label}</p>
+      <p className="mt-4 text-3xl font-bold tracking-tight text-black dark:text-white transition-colors">{value}</p>
     </article>
   );
 }

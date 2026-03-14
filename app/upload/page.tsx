@@ -180,10 +180,10 @@ export default function UploadPage() {
           </div>
           <div>
             <p className="text-xs font-bold text-red-500 uppercase tracking-[0.3em] mb-3">Fraud Prevention System</p>
-            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight">
+            <h2 className="text-3xl font-extrabold text-black dark:text-white mb-3 tracking-tight">
               Duplicate Invoice Detected
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-base max-w-md leading-relaxed">
+            <p className="text-black/60 dark:text-white/60 text-base max-w-md leading-relaxed">
               This invoice was already processed and saved in a previous session.
               Re-submitting an processed invoice is a potential fraud signal and has been blocked.
             </p>
@@ -212,7 +212,7 @@ export default function UploadPage() {
             <AlertTriangle size={48} className="text-red-600" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Upload Rejected</h2>
+            <h2 className="text-2xl font-bold text-black dark:text-white mb-2">Upload Rejected</h2>
             <p className="text-red-600 dark:text-red-400 font-semibold text-base max-w-md">{error}</p>
           </div>
           <button
@@ -229,8 +229,8 @@ export default function UploadPage() {
         <div className="w-full max-w-2xl mx-auto flex flex-col gap-8 mt-10 md:mt-20">
           <div>
             <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B1437] dark:text-white mb-4 tracking-tight transition-colors">Bill Analysis Intake</h2>
-              <p className="text-slate-500 dark:text-gray-400 text-base md:text-lg transition-colors px-4">Drag and drop invoices to extract, validate, and secure.</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-black dark:text-white mb-4 tracking-tight transition-colors">Bill Analysis Intake</h2>
+              <p className="text-black/60 dark:text-white/60 text-base md:text-lg transition-colors px-4">Drag and drop invoices to extract, validate, and secure.</p>
             </div>
 
             <div
@@ -250,16 +250,16 @@ export default function UploadPage() {
               {loading ? (
                 <div className="flex flex-col items-center animate-in fade-in duration-300">
                   <Loader2 size={48} className="text-indigo-600 animate-spin mb-6" />
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 transition-colors">Agentic AI Processing...</h3>
-                  <p className="text-slate-500 dark:text-gray-400 text-sm mb-0 transition-colors">Running compliance checks and OCR</p>
+                  <h3 className="text-xl font-bold text-black dark:text-white mb-2 transition-colors">Agentic AI Processing...</h3>
+                  <p className="text-black/60 dark:text-white/60 text-sm mb-0 transition-colors">Running compliance checks and OCR</p>
                 </div>
               ) : file ? (
                 <div className="flex flex-col items-center animate-in zoom-in-95 duration-300 w-full">
                   <div className="bg-green-50 dark:bg-green-500/10 p-4 rounded-full mb-6 text-green-600 dark:text-green-400 border border-green-100 dark:border-green-500/20">
                     <FileIcon size={40} />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 text-center break-all transition-colors">{file.name}</h3>
-                  <p className="text-slate-500 dark:text-gray-400 text-sm mb-8 transition-colors">Ready for analysis</p>
+                  <h3 className="text-lg font-bold text-black dark:text-white mb-2 text-center break-all transition-colors">{file.name}</h3>
+                  <p className="text-black/60 dark:text-white/60 text-sm mb-8 transition-colors">Ready for analysis</p>
                   <button
                     onClick={(e) => { e.preventDefault(); handleProcess(); }}
                     className="w-full max-w-sm bg-[#0A0F2C] text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#151a3a] transition-all shadow-md z-20 relative"
@@ -272,7 +272,7 @@ export default function UploadPage() {
                   <div className="bg-[#f4f7fe] dark:bg-white/5 p-5 rounded-full mb-6 group-hover:scale-110 transition-transform">
                     <UploadCloud size={40} className="text-indigo-600 dark:text-indigo-400" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 transition-colors">Select or drop file here</h3>
+                  <h3 className="text-lg font-bold text-black dark:text-white mb-2 transition-colors">Select or drop file here</h3>
                   <p className="text-slate-400 dark:text-gray-500 text-sm mb-0 transition-colors bg-[#f4f7fe] dark:bg-white/5 px-4 py-1.5 rounded-full mt-2">Supports PDF, PNG, JPG up to 10MB</p>
                 </div>
               )}
@@ -292,7 +292,7 @@ export default function UploadPage() {
               <div className="flex justify-between items-center mb-8">
                 <div>
                   <h4 className="text-xs font-bold text-slate-400 dark:text-gray-500 tracking-wider uppercase mb-1">Analysis Result Card</h4>
-                  <h2 className="text-2xl font-extrabold text-[#1B254B] dark:text-white transition-colors">
+                  <h2 className="text-2xl font-extrabold text-black dark:text-white transition-colors">
                     {extractedData.isDuplicate ? "Processing Blocked" : "Invoice analyzed successfully"}
                   </h2>
                 </div>
@@ -311,35 +311,35 @@ export default function UploadPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Vendor Name</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase truncate">{extractedData.vendorName}</span>
+                  <span className="text-sm font-bold text-black dark:text-white uppercase truncate">{extractedData.vendorName}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Vendor GSTIN</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase">{extractedData.gstin || "NOT FOUND"}</span>
+                  <span className="text-sm font-bold text-black dark:text-white uppercase">{extractedData.gstin || "NOT FOUND"}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Invoice Number</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase">{extractedData.invoiceNumber}</span>
+                  <span className="text-sm font-bold text-black dark:text-white uppercase">{extractedData.invoiceNumber}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Currency</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white uppercase">{extractedData.currency}</span>
+                  <span className="text-sm font-bold text-black dark:text-white uppercase">{extractedData.currency}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Subtotal</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white">{formatCurrency(extractedData.subtotal, extractedData.currency)}</span>
+                  <span className="text-sm font-bold text-black dark:text-white">{formatCurrency(extractedData.subtotal, extractedData.currency)}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Tax Amount</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white">{formatCurrency(extractedData.taxAmount, extractedData.currency)}</span>
+                  <span className="text-sm font-bold text-black dark:text-white">{formatCurrency(extractedData.taxAmount, extractedData.currency)}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Total Amount</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white">{formatCurrency(extractedData.amount, extractedData.currency)}</span>
+                  <span className="text-sm font-bold text-black dark:text-white">{formatCurrency(extractedData.amount, extractedData.currency)}</span>
                 </div>
                 <div className="glass-card p-4 flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Effective Tax Rate</span>
-                  <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.effectiveTaxRate.toFixed(2)}%</span>
+                  <span className="text-sm font-bold text-black dark:text-white">{extractedData.effectiveTaxRate.toFixed(2)}%</span>
                 </div>
               </div>
 
@@ -349,19 +349,19 @@ export default function UploadPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CGST</span>
-                    <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.cgst_rate.toFixed(2)}%</span>
+                    <span className="text-sm font-bold text-black dark:text-white">{extractedData.cgst_rate.toFixed(2)}%</span>
                   </div>
                   <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">SGST</span>
-                     <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.sgst_rate.toFixed(2)}%</span>
+                     <span className="text-sm font-bold text-black dark:text-white">{extractedData.sgst_rate.toFixed(2)}%</span>
                   </div>
                   <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">IGST</span>
-                     <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.igst_rate.toFixed(2)}%</span>
+                     <span className="text-sm font-bold text-black dark:text-white">{extractedData.igst_rate.toFixed(2)}%</span>
                   </div>
                   <div className="bg-white/50 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-3 flex flex-col gap-1 shadow-sm">
                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">CESS</span>
-                     <span className="text-sm font-bold text-[#1B254B] dark:text-white">{extractedData.cess_rate.toFixed(2)}%</span>
+                     <span className="text-sm font-bold text-black dark:text-white">{extractedData.cess_rate.toFixed(2)}%</span>
                   </div>
                 </div>
               </div>
@@ -372,12 +372,12 @@ export default function UploadPage() {
                   <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Compliance Advisor</h4>
                   <ul className="space-y-2">
                     {extractedData.compliance_advisor?.checks?.map((check: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                      <li key={idx} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
                         <span className="text-[#05A660] font-bold min-w-max">OK</span> {check}
                       </li>
                     ))}
                     {extractedData.compliance_advisor?.warnings?.map((warning: string, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                      <li key={idx} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
                         <span className="text-[#FF8A00] font-bold min-w-max">Warning</span> {warning}
                       </li>
                     ))}
@@ -386,7 +386,7 @@ export default function UploadPage() {
                 <div className="w-px bg-slate-200/50 dark:bg-white/10 hidden md:block"></div>
                 <div className="flex-1">
                    <h4 className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">Recommendation</h4>
-                   <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">
+                   <p className="text-sm text-black/60 dark:text-white/60 font-medium">
                      SYSTEM ALERT: Discrepancies found. Review fraud signals and AI-drafted vendor email before proceeding.
                    </p>
                 </div>
@@ -398,14 +398,14 @@ export default function UploadPage() {
                 {extractedData.fraud_signals && extractedData.fraud_signals.length > 0 ? (
                   <ul className="space-y-2">
                     {extractedData.fraud_signals.map((sig: any, idx: number) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                      <li key={idx} className="flex items-start gap-2 text-sm text-black/60 dark:text-white/60">
                         <span className="text-red-500 font-bold min-w-max">Warning</span> {sig.label}
                         {sig.description && <span className="opacity-70"> - {sig.description}</span>}
                       </li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-sm text-slate-600 dark:text-slate-400 italic">No fraud signals detected.</p>
+                  <p className="text-sm text-black/60 dark:text-white/60 italic">No fraud signals detected.</p>
                 )}
               </div>
 
@@ -421,10 +421,10 @@ export default function UploadPage() {
                    </div>
                    <div className="p-6">
                      <div className="bg-white/40 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-xl p-5 shadow-inner flex flex-col gap-3">
-                       <p className="text-sm font-bold text-slate-900 dark:text-white border-b border-white/20 pb-3">
+                       <p className="text-sm font-bold text-black dark:text-white border-b border-white/20 pb-3">
                          Subject: {extractedData.draft_vendor_email.subject}
                        </p>
-                       <pre className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-wrap font-sans leading-relaxed">
+                       <pre className="text-sm text-black/60 dark:text-white/60 whitespace-pre-wrap font-sans leading-relaxed">
                          {extractedData.draft_vendor_email.body}
                        </pre>
                      </div>

@@ -183,7 +183,7 @@ function generateFallbackTips(invoices) {
 /**
  * Main Entry Point — Analyze invoices and return per-invoice tax tips
  */
-export async function runInvoiceTaxAnalysis() {
+export async function runRecommendationEngine(businessId = null) {
   console.log('[TaxEngine] Analyzing real invoices for tax savings...');
 
   const invoices = await getAllInvoices();
@@ -254,3 +254,7 @@ export async function runInvoiceTaxAnalysis() {
     total_tax_paid: totalTaxPaid
   };
 }
+
+// Export both names for compatibility with different parts of the system
+export const runInvoiceTaxAnalysis = runRecommendationEngine;
+

@@ -22,7 +22,7 @@ export default function LandingPage() {
     return () => subscription.unsubscribe();
   }, []);
   return (
-    <div className="min-h-screen relative flex flex-col items-center overflow-x-hidden transition-colors duration-300 text-slate-900 dark:text-white">
+    <div className="min-h-screen relative flex flex-col items-center overflow-x-hidden transition-colors duration-300 text-black dark:text-white">
       
       {/* Subtle overlay for the landing page content area */}
       <div className="absolute top-0 w-full h-[600px] bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-blue-500/5 pointer-events-none z-0 transition-colors duration-300" />
@@ -44,14 +44,14 @@ export default function LandingPage() {
           Next-Gen Autonomous AP is Live
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tighter max-w-4xl leading-[1.1] mb-8 animate-in slide-in-from-bottom-10 duration-700 delay-150 fill-mode-both drop-shadow-sm transition-colors duration-300">
+        <h1 className="text-5xl md:text-7xl font-extrabold text-black dark:text-white tracking-tighter max-w-4xl leading-[1.1] mb-8 animate-in slide-in-from-bottom-10 duration-700 delay-150 fill-mode-both drop-shadow-sm transition-colors duration-300">
           Enterprise Compliance, <br className="hidden md:block"/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-purple-400">
             Powered by Agentic AI.
           </span>
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-900 dark:text-white max-w-2xl mb-12 animate-in slide-in-from-bottom-10 duration-700 delay-300 fill-mode-both font-bold transition-colors duration-300">
+        <p className="text-lg md:text-xl text-black dark:text-white max-w-2xl mb-12 animate-in slide-in-from-bottom-10 duration-700 delay-300 fill-mode-both font-bold transition-colors duration-300">
           Automate invoice processing, validate GSTINs, and detect fraud in milliseconds. The ultimate autonomous Accounts Payable intake hub for modern finance teams.
         </p>
 
@@ -63,7 +63,7 @@ export default function LandingPage() {
             {user ? "Access Dashboard" : "Start Free Trial"}
             <ArrowRight size={20} />
           </Link>
-          <button className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg text-slate-900 dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all border border-slate-200 dark:border-transparent bg-white dark:bg-white/5 shadow-sm dark:shadow-none">
+          <button className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg text-black dark:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all border border-slate-200 dark:border-transparent bg-white dark:bg-white/5 shadow-sm dark:shadow-none">
             Book a Demo
           </button>
         </div>
@@ -75,26 +75,26 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="glass-card p-8 rounded-[2.5rem] hover:shadow-2xl dark:hover:border-blue-500/50 hover:border-blue-200 transition-all group">
             <div className="bg-blue-50 dark:bg-blue-600/10 w-14 h-14 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
-              <Activity className="text-blue-600 dark:text-blue-400" size={28} />
+              <Activity className="text-black dark:text-white/80" size={28} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Real-time Risk Scoring</h3>
-            <p className="text-slate-900 dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Instantly analyze invoices against millions of ledger records to detect anomalies, duplicate spending, and vendor fraud immediately.</p>
+            <h3 className="text-xl font-bold text-black dark:text-white mb-3 transition-colors duration-300">Real-time Risk Scoring</h3>
+            <p className="text-black dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Instantly analyze invoices against millions of ledger records to detect anomalies, duplicate spending, and vendor fraud immediately.</p>
           </div>
 
           <div className="glass-card p-8 rounded-[2.5rem] hover:shadow-2xl dark:hover:border-purple-500/50 hover:border-indigo-200 transition-all group">
             <div className="bg-indigo-50 dark:bg-purple-600/10 w-14 h-14 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
               <FileText className="text-indigo-600 dark:text-purple-400" size={28} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Autonomous Extraction</h3>
-            <p className="text-slate-900 dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Our multi-modal agentic AI reads PDFs, JPGs, and PNGs with 99.8% accuracy—eliminating manual data entry entirely.</p>
+            <h3 className="text-xl font-bold text-black dark:text-white mb-3 transition-colors duration-300">Autonomous Extraction</h3>
+            <p className="text-black dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Our multi-modal agentic AI reads PDFs, JPGs, and PNGs with 99.8% accuracy—eliminating manual data entry entirely.</p>
           </div>
 
           <div className="glass-card p-8 rounded-[2.5rem] hover:shadow-2xl dark:hover:border-green-500/50 hover:border-emerald-200 transition-all group">
             <div className="bg-emerald-50 dark:bg-green-600/10 w-14 h-14 rounded-3xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-inner dark:shadow-none">
               <Lock className="text-emerald-600 dark:text-green-400" size={28} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 transition-colors duration-300">Enterprise Security</h3>
-            <p className="text-slate-900 dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Built on Google Cloud with end-to-end encryption. Granular access controls and immutable audit logs by default.</p>
+            <h3 className="text-xl font-bold text-black dark:text-white mb-3 transition-colors duration-300">Enterprise Security</h3>
+            <p className="text-black dark:text-white text-sm leading-relaxed font-bold transition-colors duration-300">Built on Google Cloud with end-to-end encryption. Granular access controls and immutable audit logs by default.</p>
           </div>
         </div>
       </section>
@@ -105,9 +105,9 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <Link href="/" className="flex items-center gap-2">
             <Image src="/Logo.png" alt="compliance.ai Logo" width={24} height={24} className="object-contain opacity-70 grayscale dark:invert" />
-            <span className="text-sm font-bold text-slate-800 dark:text-white tracking-tight transition-colors duration-300">compliance.ai</span>
+            <span className="text-sm font-bold text-black dark:text-white tracking-tight transition-colors duration-300">compliance.ai</span>
           </Link>
-          <p className="text-xs text-slate-800 dark:text-white font-bold transition-colors duration-300">© 2026 compliance.ai Technologies. All rights reserved.</p>
+          <p className="text-xs text-black dark:text-white font-bold transition-colors duration-300">© 2026 compliance.ai Technologies. All rights reserved.</p>
         </div>
       </footer>
     </div>

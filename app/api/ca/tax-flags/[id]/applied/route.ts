@@ -4,9 +4,9 @@ import prisma from "@/lib/prisma";
 /**
  * Mark a tax recommendation as successfully applied/processed by the CA
  */
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     await prisma.taxRecommendation.update({
       where: { id },

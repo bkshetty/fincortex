@@ -140,3 +140,14 @@ model Invoice {
   @@index([invoice_number, vendor_name])
   @@index([image_hash])
 }
+
+model UserPreference {
+  id                    String    @id @default(uuid())
+  user_email            String    @unique
+  notifications_enabled Boolean   @default(true)
+  tax_frequency         String    @default("monthly") // "monthly" | "quarterly"
+  period_start_date     DateTime  @default(now())
+  last_reminder_sent    DateTime?
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @updatedAt
+}

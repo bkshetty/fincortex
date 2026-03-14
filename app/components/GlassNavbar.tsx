@@ -34,14 +34,14 @@ export default function GlassNavbar() {
         <div className="bg-white/80 dark:bg-white/10 p-2 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] dark:shadow-none border border-slate-100 dark:border-white/5 flex items-center justify-center h-12 w-12 transition-all">
           <Image src="/Logo.png" alt="compliance.ai Logo" width={32} height={32} className="object-contain" />
         </div>
-        <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">compliance.ai</span>
+        <span className="text-xl font-extrabold tracking-tight text-black dark:text-white">compliance.ai</span>
       </Link>
       
       <div className="flex items-center gap-6">
-        <Link href="#features" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors hidden md:block">
+        <Link href="#features" className="text-sm font-medium text-black/60 dark:text-white/60 hover:text-slate-900 dark:hover:text-white transition-colors hidden md:block">
           Platform Features
         </Link>
-        <Link href="#security" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors hidden md:block">
+        <Link href="#security" className="text-sm font-medium text-black/60 dark:text-white/60 hover:text-slate-900 dark:hover:text-white transition-colors hidden md:block">
           Security
         </Link>
 
@@ -72,7 +72,7 @@ export default function GlassNavbar() {
                 <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-lg border border-slate-200 dark:border-white/10 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="p-3 border-b border-slate-100 dark:border-white/5">
                     <p className="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wide">Signed in as</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user.email}</p>
+                    <p className="text-sm font-bold text-black dark:text-white truncate">{user.email}</p>
                   </div>
                   <div className="p-1">
                     <button 
@@ -92,7 +92,7 @@ export default function GlassNavbar() {
         ) : (
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <Link href="/login" className="text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors">
+            <Link href="/login" className="text-sm font-bold text-black/60 dark:text-white/60 hover:text-slate-900 dark:hover:text-white transition-colors">
               Log in
             </Link>
             <Link 

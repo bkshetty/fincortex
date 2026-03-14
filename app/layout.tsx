@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="antialiased">
-      <body suppressHydrationWarning className={`${inter.className} text-slate-900 dark:text-white flex h-screen overflow-hidden transition-colors duration-300`}>
+      <body suppressHydrationWarning className={`${inter.className} text-black dark:text-white flex h-screen overflow-hidden transition-colors duration-300`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} storageKey="compliance-theme">
           <AuthGuard>
             {/* HYPERBOLOID FLOW v2 ANIMATED BACKGROUND */}
